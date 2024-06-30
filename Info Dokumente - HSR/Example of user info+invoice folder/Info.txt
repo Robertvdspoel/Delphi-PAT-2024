@@ -1,0 +1,14 @@
+the folders are named after the user's primary key
+
+The invoices are named after the date and can contain more clarity after the #
+
+the optional image of the user is named image
+
+the invoice_list.txt is a list of the invoices that can be used to write their names to a array for futher processing
+		When editing the txt file(like when deleting invoices) options:
+			-delete it and write a new one 
+			-only delete certain lines
+
+check if the directory of the user's primary key exists (Should exist if user account exists)
+	Open the txt file containing info about the invoices
+	Open the image files
