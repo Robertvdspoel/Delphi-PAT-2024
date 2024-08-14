@@ -2,6 +2,7 @@
 
 with open('encrypted password example.txt', 'r') as file:       # in delphi this string will be retrieved from the string containing info such as username and primary key.
     string = file.read()
+   
 
 
 password = ''
@@ -11,7 +12,7 @@ for key in string:
     for c in key:
         if not c == ' ':
             keydigits += c
-            print(keydigits)
+            #print(keydigits)
 
         else:
             with open('keys.txt', 'r') as keyfile:
@@ -24,4 +25,7 @@ for key in string:
             keydigits= ''
 
 
+
 print(password)
+
+

@@ -5,14 +5,16 @@ keyslist = []
 
 allowedcharacters = []
 
+Len = 10
+
 def CreateKeyAlpha():
-    for _ in range(10):    # Lenght of the encryption key
+    for _ in range(Len):    # Lenght of the encryption key
         c = randint(1, 26)
         global sKey
         sKey += ascii_lowercase[c-1]
 
 def CreatekeyNum(random):          # This was unnessesay
-    for _ in range(10):    # Lenght of the encryption key
+    for _ in range(Len):    # Lenght of the encryption key
         c = randint(1, random)
         global sKey
         sKey += ascii_lowercase[c-1]

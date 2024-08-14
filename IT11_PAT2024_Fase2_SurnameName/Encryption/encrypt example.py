@@ -1,7 +1,12 @@
-password = 'Robert!!'                  
+import os
+password = 'Robert'                  
 
 encrypt = ''        # Idea can be to store the len of the string at the begining and write to a txt file to make decryption easier
 
+#Clear the txt file
+os.remove('encrypted password example.txt')
+file=open('encrypted password example.txt', 'a')
+file.close()
 
 
 for c in password:              # Manually clear the example file before running the new encryption
