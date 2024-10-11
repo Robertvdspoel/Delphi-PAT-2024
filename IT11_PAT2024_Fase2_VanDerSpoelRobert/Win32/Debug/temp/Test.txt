@@ -1,0 +1,12 @@
+Activity	Reps/Distance
+CARDIO:
+Treadmill Running	5 km
+STRENGTH:
+Pull Up	1
+Pushups	1
+Situps	1
+Squats	1
+LOWER BODY:
+Test2	2
+UPPER BODY:
+Upper4	4

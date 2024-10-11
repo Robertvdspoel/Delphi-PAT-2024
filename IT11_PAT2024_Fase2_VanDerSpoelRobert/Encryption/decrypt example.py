@@ -8,7 +8,7 @@ with open('encrypted password example.txt', 'r') as file:       # in delphi this
 password = ''
 keydigits= ''
 for key in string:
-   
+   # print(key)
     for c in key:
         if not c == ' ':
             keydigits += c

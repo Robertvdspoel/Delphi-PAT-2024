@@ -1,3 +1,5 @@
 -File copy: https://www.youtube.com/watch?v=nZ5bop9wN-M
--Email sender : ChatGPT and internet sources assisted the creation in the creation of the template. I modified it to suit my needs
--
+
+- ChatGPT and Stack overFlow was used for the deletion of lines from a txt file
+-InputputQuery : experimentation
+- Multiplier formula was created by AI, as it is theoretical 

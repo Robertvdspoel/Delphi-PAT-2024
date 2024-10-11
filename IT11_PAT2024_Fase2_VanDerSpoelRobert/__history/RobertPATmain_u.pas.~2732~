@@ -1,0 +1,4502 @@
+unit RobertPATmain_u;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Buttons, IdBaseComponent, IdComponent, IdCustomTCPServer, IdMappedPortTCP,
+  IdMappedTelnet, Vcl.WinXPickers, Vcl.Samples.Spin, Vcl.Imaging.jpeg, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, System.Sensors, System.Sensors.Components,
+  Vcl.CheckLst, Vcl.JumpList, Vcl.ValEdit, Data.Win.ADODB, Vcl.Mask,
+  System.Bluetooth, System.Bluetooth.Components, Vcl.Menus, System.Actions,
+  Vcl.ActnList, Datasnap.Provider, DateUtils, math, Vcl.NumberBox, Vcl.ColorGrd,
+  Vcl.DBCGrids, Vcl.Imaging.pngimage, Xml.xmldom, Xml.XmlTransform;
+
+type
+  TfrmMain = class(TForm)
+    pgcMain: TPageControl;
+    tsStartUP: TTabSheet;
+    tsSignIn: TTabSheet;
+    tsRegister: TTabSheet;
+    tsAdmin: TTabSheet;
+    tsWorkout: TTabSheet;
+    tsStatistics: TTabSheet;
+    tsManagement: TTabSheet;
+    lblWelcome: TLabel;
+    btnSignIn: TButton;
+    btnRegister: TButton;
+    lblRegister: TLabel;
+    edtName: TEdit;
+    edtSurname: TEdit;
+    dtpDateOfBirth: TDateTimePicker;
+    rgpGender: TRadioGroup;
+    chkMembership: TCheckBox;
+    btnCreateAccount: TButton;
+    lblGO: TLabel;
+    lblName: TLabel;
+    lblSurname: TLabel;
+    lblDateOfBirth: TLabel;
+    sedHeight: TSpinEdit;
+    sedKilogram: TSpinEdit;
+    lblHeight: TLabel;
+    lblWeight: TLabel;
+    sedGram: TSpinEdit;
+    lblKg: TLabel;
+    lblGram: TLabel;
+    redConfirmInfo: TRichEdit;
+    btnConfirmInfo: TButton;
+    lblConfirm: TLabel;
+    BmbMemInfo: TBitBtn;
+    BmbRetry: TBitBtn;
+    imgRegister: TImage;
+    redShowAccounts: TRichEdit;
+    lblShowAccounts: TLabel;
+    dbgTable: TDBGrid;
+    lblAdminPage: TLabel;
+    pnlAgeCheck: TPanel;
+    lblAddWorkout: TLabel;
+    btnEndWorkout: TButton;
+    btnStartWorkout: TButton;
+    lblWorkoutWarning: TLabel;
+    chkListStrength: TCheckListBox;
+    btnEnterReps: TButton;
+    rgpCardio: TRadioGroup;
+    btnResetCardio: TButton;
+    sedCardioDistance: TSpinEdit;
+    lblCardioDistance: TLabel;
+    lblStrength_Training: TLabel;
+    cmbLower_Weights: TComboBox;
+    lblWeightLifting: TLabel;
+    pnlWorkout: TPanel;
+    conGym_Membership: TADOConnection;
+    tblCustomer_Info: TADOTable;
+    dsrCustomer_Info: TDataSource;
+    tblVisits: TADOTable;
+    dsrVisits: TDataSource;
+    dsrPointsExtracted: TDataSource;
+    tblPointsExtracted: TADOTable;
+    tblFees: TADOTable;
+    dsrFees: TDataSource;
+    edtUsernameDisplay: TEdit;
+    lblUsernameConfirm: TLabel;
+    edtPassword: TEdit;
+    lblPassword: TLabel;
+    lblPasswordDisplay: TLabel;
+    lblConfirmPasswordIndicate: TLabel;
+    tsManageSystem: TTabSheet;
+    lblRepsInfo: TLabel;
+    lblLiftingInfo: TLabel;
+    lblLowerBody: TLabel;
+    sedLowerBody: TSpinEdit;
+    lblUpperBodyLifting: TLabel;
+    lstUpperWeights: TListBox;
+    sedUpperBody: TSpinEdit;
+    rgpFile: TRadioGroup;
+    lblManageSystem: TLabel;
+    BmbResetrgpUpdate: TBitBtn;
+    btnAddAct: TButton;
+    btnDeleteAct: TButton;
+    pnlUpdateFiles: TPanel;
+    lblReps: TLabel;
+    lblReps2: TLabel;
+    chkMyInfo: TCheckBox;
+    cmbTableSelect: TComboBox;
+    pnlGridSorting: TPanel;
+    lblTable: TLabel;
+    lblTableSorting: TLabel;
+    lblAccountsMatching: TLabel;
+    pnlSearchAndSort: TPanel;
+    lblRangeFind: TLabel;
+    cmbRangeSelect: TComboBox;
+    lblRangeSelect: TLabel;
+    sedLowestValue: TSpinEdit;
+    sedHighestValue: TSpinEdit;
+    lblLowestValue: TLabel;
+    lblHighestValue: TLabel;
+    btnFindAccountRange: TButton;
+    grbFindbyFee: TGroupBox;
+    btnFindAccountFees: TButton;
+    lblCreteriaInfo: TLabel;
+    grbAccountSearch: TGroupBox;
+    edtNameSearch: TEdit;
+    edtSurnameSearch: TEdit;
+    btnStartSearch: TButton;
+    lblMemoAccountInfo: TLabel;
+    btnDeleteAccount: TButton;
+    BmbRecoverLogin: TBitBtn;
+    lblAccountDisplayUsername: TLabel;
+    lblAccountDisplayPassword: TLabel;
+    lstAccountSelect: TListBox;
+    lblSelectAccount: TLabel;
+    pnlWorkoutSum: TPanel;
+    lblWorkoutSum: TLabel;
+    redWorkoutSum: TRichEdit;
+    btnUploadWorkout: TButton;
+    BmbRetryWorkout: TBitBtn;
+    grbWorkoutDiscription: TGroupBox;
+    lstQuickDescribe: TListBox;
+    btnDescription: TButton;
+    lblQuickMessage: TLabel;
+    BmbReset_QuickSelect: TBitBtn;
+    memCustomDescription: TMemo;
+    tsAdmin_Account_Management: TTabSheet;
+    lblAdminAccountManagement: TLabel;
+    grbManageAdmins: TGroupBox;
+    grbChargeUsers: TGroupBox;
+    btnAddAdminShow: TButton;
+    btnRemoveAdminShow: TButton;
+    rgpFeeReason: TRadioGroup;
+    grbAddAdmin: TGroupBox;
+    edtAdminUsername: TEdit;
+    edtAdminPassword: TEdit;
+    chkLoginAdmin: TCheckBox;
+    edtAdminPasswordConfirm: TEdit;
+    btnAddAdmin: TButton;
+    grbDeleteAdmin: TGroupBox;
+    cmbDeleteAdmin: TComboBox;
+    lblDeleteAdmin: TLabel;
+    btnDeleteAdminAccount: TButton;
+    sedRands: TSpinEdit;
+    lblFeeAmmount: TLabel;
+    sedCents: TSpinEdit;
+    lblRands: TLabel;
+    lblCents: TLabel;
+    btnAddFee: TButton;
+    edtFeeName: TEdit;
+    edtFeeSurname: TEdit;
+    btnFindUser: TButton;
+    btnNext: TButton;
+    btnBack: TButton;
+    btnCustomeFeeReason: TButton;
+    bmbShowFeeReason: TBitBtn;
+    btnUndoAddFee: TButton;
+    bmbExitProgram: TBitBtn;
+    bmbSystemManageMent: TBitBtn;
+    bmbAdminAccountMangement: TButton;
+    bmbAdminAccountsFromSM: TBitBtn;
+    btnManageSystemBack: TButton;
+    bmbBackAdminManagement: TButton;
+    bmbManageSystemFromAAM: TButton;
+    bmbSignInBack: TBitBtn;
+    bmbRegisterBack: TBitBtn;
+    bmbWorkoutPageNext: TBitBtn;
+    bmbWorkoutHelp: TBitBtn;
+    bmbManagementFromWorkout: TBitBtn;
+    Button1: TButton;
+    lblLogin: TLabel;
+    edtLoginUsername: TEdit;
+    edtLoginPassword: TEdit;
+    lblLoginUsername: TLabel;
+    lblLoginPassword: TLabel;
+    bmbLoginReset: TBitBtn;
+    btnLogin: TButton;
+    lblConfirmPassword: TLabel;
+    edtConfirmPassword: TEdit;
+    pnlRegisterInput: TPanel;
+    grbSummary: TGroupBox;
+    sedIDsearch: TSpinEdit;
+    lblID: TLabel;
+    bmbResetFeeInput: TBitBtn;
+    TimerUndoFee: TTimer;
+    bmbResetLowerBody: TBitBtn;
+    bmbResetUpperBodyInput: TBitBtn;
+    pgcStats: TPageControl;
+    lblManageAccount: TLabel;
+    pgcManagement: TPageControl;
+    tsDetails: TTabSheet;
+    tsFees: TTabSheet;
+    tsPoints: TTabSheet;
+    lblStats: TLabel;
+    tsSeeWorkouts: TTabSheet;
+    tsGraph: TTabSheet;
+    grbUpdateDetails: TGroupBox;
+    sedActivityReps: TSpinEdit;
+    edtAddAct: TEdit;
+    lblAddAct: TLabel;
+    lblActivityAddName: TLabel;
+    lblAddActivityPoints: TLabel;
+    lblDeleteActivity: TLabel;
+    lstDeleteActivity: TListBox;
+    lbSelectActToDelete: TLabel;
+    btnUpdateInfo: TButton;
+    lblUpdateHeight: TLabel;
+    sedUpdateHeight: TSpinEdit;
+    lblUpdateWeight: TLabel;
+    sedUpdateKg: TSpinEdit;
+    sedUpdateGram: TSpinEdit;
+    lblupdateKG: TLabel;
+    lblUpdateGram: TLabel;
+    lblUpdateSurname: TLabel;
+    edtUpdateSurname: TEdit;
+    bmbResetUpdate: TBitBtn;
+    sedFindByID: TSpinEdit;
+    lblSearchID: TLabel;
+    bmbRetrySearch: TBitBtn;
+    redAccountSearch: TRichEdit;
+    bmbClearSearch: TBitBtn;
+    lstSelectActivityDate: TListBox;
+    btnLoadWorkouts: TButton;
+    redWorkoutInfoDisplay: TRichEdit;
+    tpStartTime: TTimePicker;
+    tpEndTime: TTimePicker;
+    lblSelectActDate: TLabel;
+    nbPointsForAct: TNumberBox;
+    btnWorkoutDescription: TButton;
+    lblStartTimeStats: TLabel;
+    lblEndTimeStats: TLabel;
+    lblEffortPointsStats: TLabel;
+    lblWorkoutInfo: TLabel;
+    btnDisplayGraph: TButton;
+    grbDisplayGraph: TGroupBox;
+    grbUpdateLogin: TGroupBox;
+    bmbDeleteAccountUser: TBitBtn;
+    lblMostCommonDay: TLabel;
+    edtUpdateUserName: TEdit;
+    edtUpdatePassword: TEdit;
+    edtUpdatePasswordConfirm: TEdit;
+    lblUpdateUsername: TLabel;
+    lblUpdatePassword: TLabel;
+    lblConfirmUpdatePassword: TLabel;
+    btnUpdateLogin: TButton;
+    bmbResetUpdateLogin: TBitBtn;
+    lblUpdateAccount: TLabel;
+    lblManageFees: TLabel;
+    btnDisplayPaidFees: TButton;
+    btnDisplayUnPaidFees: TButton;
+    btnGetMembership: TButton;
+    redFeeDisplay: TRichEdit;
+    btnPayFee: TButton;
+    lstFeeSelect: TListBox;
+    lblFeesDisplay: TLabel;
+    lblSelectFee: TLabel;
+    lblPointsManagent: TLabel;
+    pnlTotalEarned: TPanel;
+    pnlTotalExtracted: TPanel;
+    btnCalcPoints: TButton;
+    pnlPointsRemaining: TPanel;
+    grbExtractPoints: TGroupBox;
+    cmbPlatform: TComboBox;
+    lblSelectPlatform: TLabel;
+    sedPointsToExtract: TSpinEdit;
+    lblPointsToExract: TLabel;
+    bmbExtractPoints: TBitBtn;
+    pnlExtractionSummary: TPanel;
+    lblExtractSum: TLabel;
+    btnSum: TButton;
+    redExtractionSum: TRichEdit;
+    btnClosePanelExtractSum: TButton;
+    bttPnlExtractionShow: TButton;
+    bmbBackFromStats: TBitBtn;
+    bmbAboutUS: TBitBtn;
+    bmbBackFromManagement: TBitBtn;
+    btnToPointManageFromUpdateA: TButton;
+    btnToFeeManageFromUpdateA: TButton;
+    btnToPointsFromFees: TButton;
+    btnFeesBack: TBitBtn;
+    bmbBackFromPoints: TBitBtn;
+    btnToFeesFromPoints: TButton;
+    btnGoToGraph: TButton;
+    btnGoToSeeWork: TButton;
+    bmbLoginHelp: TBitBtn;
+    bmbRegisterHelp: TBitBtn;
+    bmbStatsHelp: TBitBtn;
+    bmbUpdateHelp: TBitBtn;
+    bmbFeesHelp: TBitBtn;
+    bmbPointHelp: TBitBtn;
+    imgStartDisplay: TImage;
+    bmbSystemManageHelp: TBitBtn;
+    bmbAdminAccountHelp: TBitBtn;
+    bmbSearchUserHelp: TBitBtn;
+    btnWorkoutBecomeMember: TButton;
+    btnStatsBecomeMember: TButton;
+    btnManagementBecomeMember: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure BmbMemInfoClick(Sender: TObject);
+    procedure btnConfirmInfoClick(Sender: TObject);
+    procedure BmbRetryClick(Sender: TObject);
+    procedure btnCreateAccountClick(Sender: TObject);
+    procedure btnEndWorkoutClick(Sender: TObject);
+    procedure btnStartWorkoutClick(Sender: TObject);
+    procedure btnEnterRepsClick(Sender: TObject);
+    procedure btnResetCardioClick(Sender: TObject);
+    procedure btnUpdateInfoMessageClick(Sender: TObject);
+    procedure dbgTableCellClick(Column: TColumn);
+    procedure btnStartSearchClick(Sender: TObject);
+    procedure btnDeleteAccountClick(Sender: TObject);
+    procedure BmbRetryWorkoutClick(Sender: TObject);
+    procedure btnUploadWorkoutClick(Sender: TObject);
+    procedure btnDescriptionClick(Sender: TObject);
+    procedure BmbReset_QuickSelectClick(Sender: TObject);
+    procedure btnFindUserClick(Sender: TObject);
+    procedure btnNextClick(Sender: TObject);
+    procedure btnBackClick(Sender: TObject);
+    procedure btnAddAdminShowClick(Sender: TObject);
+    procedure btnCustomeFeeReasonClick(Sender: TObject);
+    procedure bmbShowFeeReasonClick(Sender: TObject);
+    procedure btnUndoAddFeeClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure btnLoginClick(Sender: TObject);
+    procedure bmbLoginResetClick(Sender: TObject);
+    procedure rgpGenderClick(Sender: TObject);
+    procedure cmbTableSelectChange(Sender: TObject);
+    procedure bmbResetFeeInputClick(Sender: TObject);
+    procedure rgpFeeReasonClick(Sender: TObject);
+    procedure btnAddFeeClick(Sender: TObject);
+    procedure TimerUndoFeeTimer(Sender: TObject);
+    procedure btnFindAccountRangeClick(Sender: TObject);
+    procedure btnFindAccountFeesClick(Sender: TObject);
+    procedure btnAddActClick(Sender: TObject);
+    procedure btnDeleteActClick(Sender: TObject);
+    procedure bmbResetLowerBodyClick(Sender: TObject);
+    procedure bmbResetUpperBodyInputClick(Sender: TObject);
+    procedure chkListStrengthClickCheck(Sender: TObject);
+    procedure btnRemoveAdminShowClick(Sender: TObject);
+    procedure btnAddAdminClick(Sender: TObject);
+    procedure btnDeleteAdminAccountClick(Sender: TObject);
+    procedure BmbRecoverLoginClick(Sender: TObject);
+    procedure rgpFileClick(Sender: TObject);
+    procedure BmbResetrgpUpdateClick(Sender: TObject);
+    procedure btnUpdateInfoClick(Sender: TObject);
+    procedure bmbRetrySearchClick(Sender: TObject);
+    procedure bmbClearSearchClick(Sender: TObject);
+    procedure bmbResetUpdateClick(Sender: TObject);
+    procedure btnDisplayGraphClick(Sender: TObject);
+    procedure btnLoadWorkoutsClick(Sender: TObject);
+    procedure lstSelectActivityDateClick(Sender: TObject);
+    procedure btnWorkoutDescriptionClick(Sender: TObject);
+    procedure pgcMainChange(Sender: TObject);
+    Procedure pnlDynamicClick(Sender: TObject);
+    procedure bmbDeleteAccountUserClick(Sender: TObject);
+    procedure btnUpdateLoginClick(Sender: TObject);
+    procedure bmbResetUpdateLoginClick(Sender: TObject);
+    procedure lstAccountSelectClick(Sender: TObject);
+    procedure btnGetMembershipMouseEnter(Sender: TObject);
+    procedure btnGetMembershipMouseLeave(Sender: TObject);
+    procedure btnGetMembershipClick(Sender: TObject);
+    procedure btnDisplayPaidFeesClick(Sender: TObject);
+    procedure btnDisplayUnPaidFeesClick(Sender: TObject);
+    procedure btnPayFeeClick(Sender: TObject);
+    procedure btnCalcPointsClick(Sender: TObject);
+    procedure bmbExtractPointsClick(Sender: TObject);
+    procedure pnlTotalEarnedClick(Sender: TObject);
+    procedure btnSumClick(Sender: TObject);
+    procedure btnClosePanelExtractSumClick(Sender: TObject);
+    procedure bttPnlExtractionShowClick(Sender: TObject);
+    procedure btnSignInClick(Sender: TObject);
+    procedure bmbSignInBackClick(Sender: TObject);
+    procedure bmbRegisterBackClick(Sender: TObject);
+    procedure btnRegisterClick(Sender: TObject);
+    procedure bmbAdminAccountMangementClick(Sender: TObject);
+    procedure bmbSystemManageMentClick(Sender: TObject);
+    procedure bmbBackAdminManagementClick(Sender: TObject);
+    procedure btnManageSystemBackClick(Sender: TObject);
+    procedure bmbAdminAccountsFromSMClick(Sender: TObject);
+    procedure bmbManageSystemFromAAMClick(Sender: TObject);
+    procedure bmbWorkoutHelpClick(Sender: TObject);
+    procedure bmbManagementFromWorkoutClick(Sender: TObject);
+    procedure bmbWorkoutPageNextClick(Sender: TObject);
+    procedure bmbAboutUSClick(Sender: TObject);
+    procedure bmbBackFromStatsClick(Sender: TObject);
+    procedure bmbBackFromManagementClick(Sender: TObject);
+    procedure btnToFeeManageFromUpdateAClick(Sender: TObject);
+    procedure btnToPointManageFromUpdateAClick(Sender: TObject);
+    procedure btnFeesBackClick(Sender: TObject);
+    procedure btnToPointsFromFeesClick(Sender: TObject);
+    procedure bmbBackFromPointsClick(Sender: TObject);
+    procedure btnToFeesFromPointsClick(Sender: TObject);
+    procedure btnGoToGraphClick(Sender: TObject);
+    procedure btnGoToSeeWorkClick(Sender: TObject);
+    procedure bmbLoginHelpClick(Sender: TObject);
+    procedure bmbRegisterHelpClick(Sender: TObject);
+    procedure bmbStatsHelpClick(Sender: TObject);
+    procedure bmbUpdateHelpClick(Sender: TObject);
+    procedure bmbFeesHelpClick(Sender: TObject);
+    procedure bmbPointHelpClick(Sender: TObject);
+    procedure btnWorkoutBecomeMemberClick(Sender: TObject);
+    procedure btnStatsBecomeMemberClick(Sender: TObject);
+    procedure btnManagementBecomeMemberClick(Sender: TObject);
+    procedure bmbAdminAccountHelpClick(Sender: TObject);
+    procedure bmbSearchUserHelpClick(Sender: TObject);
+    procedure bmbSystemManageHelpClick(Sender: TObject);
+  private
+    { Private declarations }
+
+    // Global Variables
+
+
+        sNameRegister, sSurnameRegister, sRegisterPassword, sRegisterPasswordConfirm : string;
+         sUsernameCreate, sFeeReason : string ;
+        dDateOfBirthRegister : TDate ;
+        iHeightRegister, iTimerCountdown,  iStrengthActCount, iTimeForActivity : Integer ;
+        rWeight : real;
+        iLowerBodyCount, iUpperBodyCount, iStrengthSelectedCount : integer ;
+        bCheckListBox, bFirstUpdate,  bMembershipPaid : boolean ;
+
+        dtWorkoutStart, dtWorkoutEnd : TDateTime ;
+        iActivityDateCount : integer ;
+        sUsername, sPassword : string ;
+
+        iTotalEarned, iTotalExtracted, iRemainder : integer ;
+        bClicked : boolean ;
+
+    // Global Arrays
+
+    arrStrengthPoints: array [1 .. 20] of integer; // A max of 20 items can be options for selection. The poits that each activity is worth
+    arrStrengthOriginalNames : array [1..20] of string; //  Max of 20 items. The names of activities that are retrieved from the txt file. Will be sorted alpabetically before being added to the check list bos
+    arrStrengthReps: array [1 .. 20] of integer;// The reps that the uder did for each strenght activity
+    arrStrengthSelectedNames: array [1 .. 20] of string; // The names of the activities that the user selected in the check lsit box
+    arrLowerBody : array [1..10] of integer ;   // The points for the lower body activities
+    arrUpperBody : array [1..10] of integer ;   // The points for the upper body activities
+
+    arrKeyCharacter: array [1 .. 94] of char; // Array to store the positions of the characters from the txt files to find the encryption key faster
+    arrKey: array [1 .. 94] of string; // Array to store the actual key that fill be used for encryption and decryption
+    arrSpecialCharacter : array[1..32] of Char ; // array to store special characters
+
+    arrVisitsKeys : array[0..20000000] of integer ; // array to store the primary keys for the visits for the customer when they are being read to the list box for date selection of activity
+
+    arrActivityDayCount : array[1..7] of integer ; // Array to store the counters for the days of each activity.
+    arrPanelLeftPosition : array[1..7] of integer ; // Array to store the Left positions of the dynamic panels to be used for output
+    arrPointsPerDay : array[1..7] of integer ; // Array to store the total ammount of points that was earned on each day
+
+    //arrFeeRecNo : array[0..20000] of integer; // Array to store the record numbers of the unpaid fees to navigate to them quicly
+
+    // Procedures
+    Procedure KeysToArrays();
+    Procedure SetShowAccountsTabStops(pCustom: string);
+    Procedure AccountsDisplay(pDisplay: string) ;
+    Procedure DeleteLineFromFile(pFileName:string; pLineNumber : integer) ;
+    Procedure GetMembership();
+    Procedure FeeDisplay();
+    Procedure ButtonBecomeMembership();
+    Procedure HideMembershipButtons();
+
+
+    // Functions
+    Function PointMultiplier(pHeight: integer; pWeight: real; pDateOfBirth: TDate; pStart, pEnd : TDateTime): real;
+    Function Encrypt(pToEncrypt: string): string;
+    Function Decrypt(pToDecrypt: string) : string ;
+    Function ListCheckBoxSelected():boolean;
+    Function DeleteAccount(pPrimaryKey: integer): Boolean;
+
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMain: TfrmMain;
+  pnlGraph : TPanel ;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmMain.AccountsDisplay(pDisplay: string);
+begin
+// Display the accounts matching the criteria to the rich edit
+
+  redShowAccounts.Lines.Add(inttostr(tblCustomer_Info['CustomerID'])+#9+ tblCustomer_Info['CustomerName']+#9+tblCustomer_Info['Surname']+#9+pDisplay) ;
+end;
+
+procedure TfrmMain.bmbAboutUSClick(Sender: TObject);
+var
+  sString : string                   ;
+begin
+// About the company display button
+sString := 'At The Gym Membership, we are committed to helping you live healthier in a welcoming and supportive environment. With state of the art equipment our gym offers everything you need to stay active and healthy.'  ;
+sString := sString + ' Join us today and start your journey to a healthier, stronger you!';
+ShowMessage(sString);
+end;
+
+procedure TfrmMain.bmbAdminAccountHelpClick(Sender: TObject);
+begin
+// Help button for admin accouts
+ShowMessage('To add an account: Enter the username and the password twice and then press the Add Admin Button.'+#13+'To delete an admin account: Press on the remove admin button. Then select the account from combobox and press the delete button. * You cannot delete the last admin account') ;
+end;
+
+procedure TfrmMain.bmbAdminAccountMangementClick(Sender: TObject);
+begin
+// Go the the Admin account management page from the admin home page
+pgcMain.ActivePage.TabVisible := FAlse;
+tsAdmin_Account_Management.TabVisible := True ;
+pgcMain.ActivePage := tsAdmin_Account_Management ;
+end;
+
+procedure TfrmMain.bmbAdminAccountsFromSMClick(Sender: TObject);
+begin
+// Go to the admin accoucnt management page from the system management page
+pgcMain.ActivePage.TabVisible := FAlse ;
+tsAdmin_Account_Management.TabVisible := True;
+pgcMain.ActivePage := tsAdmin_Account_Management ;
+end;
+
+procedure TfrmMain.bmbBackAdminManagementClick(Sender: TObject);
+begin
+// Go to the admin home page from the admin account management page
+pgcMain.ActivePage.TabVisible := False;
+tsAdmin.TabVisible := True;
+pgcMain.ActivePage := tsAdmin ;
+end;
+
+procedure TfrmMain.bmbBackFromManagementClick(Sender: TObject);
+begin
+// Go back to the workout page from the Management page
+pgcMain.ActivePage.TabVisible := False;
+tsWorkout.TabVisible := true;
+pgcMain.ActivePage := tsWorkout ;
+end;
+
+procedure TfrmMain.bmbBackFromPointsClick(Sender: TObject);
+begin
+// Go to the Update account page  from the points management page  (Back)
+pgcManagement.ActivePage.TabVisible := False;
+tsDetails.TabVisible := True ;
+pgcManagement.ActivePage := tsDetails;
+end;
+
+procedure TfrmMain.bmbBackFromStatsClick(Sender: TObject);
+begin
+// Go back to the workout page from the stats page
+pgcMain.ActivePage.TabVisible := False;
+tsWorkout.TabVisible := True;
+pgcMain.ActivePage := tsWorkout ;
+end;
+
+procedure TfrmMain.bmbClearSearchClick(Sender: TObject);
+begin
+// Clear the output on the search account groupbox
+redAccountSearch.Clear ;
+lstAccountSelect.Clear ;
+bmbRetrySearch.Click ; // Clear the input from the user
+lblAccountDisplayUsername.Caption := 'Username:' ;
+lblAccountDisplayPassword.Caption := 'Password:' ;
+end;
+
+procedure TfrmMain.bmbDeleteAccountUserClick(Sender: TObject);
+var
+  bDelete : Boolean ;
+begin
+// Delete the user account when they click the button and confirm
+bDelete:= DeleteAccount(tblCustomer_Info['CustomerID'])  ;
+
+  // if the account was deleted successfully; Close the program
+  if bDelete = True then
+  begin
+    Sleep(1000) ; //   Wait for 1 seconds
+
+    ShowMessage('Thanks for your time. Remember to live healthily!!'+#13+'*The program will close 3 seconds after this messaged is closed.') ;
+    frmMain.Enabled := False;
+    Sleep(3000); // wait 3 seconds before closing the application
+
+    frmMain.Close ;  // Close the program
+
+  end;
+
+end;
+
+procedure TfrmMain.bmbExtractPointsClick(Sender: TObject);
+var
+  sExtractDetails, sPlatform : string ;
+  iAmmount : integer ;
+begin
+// Extract the points from the users account
+
+    // validation
+    if not bClicked = true then // Make sure that the button for the calculations was clicked
+    begin
+      ShowMessage('Please click the calculate button to contnue.');
+      Exit;
+    end;
+
+    if cmbPlatform.ItemIndex = -1 then
+    begin
+      ShowMessage('Please Select a Platform to extract points to.');
+      Exit;
+    end;
+
+    if sedPointsToExtract.Value = 0 then
+    begin
+      ShowMessage('Please enter a value of points to extract ');
+      Exit;
+    end;
+
+   sPlatform := cmbPlatform.Items[cmbPlatform.ItemIndex] ;  // The platform the user wants to extract to
+   iAmmount := sedPointsToExtract.Value ;           // The ammount the user wants to extract
+
+  // Ask for account of extraction details, not to use it, but as a formality
+  sExtractDetails := InputBox('Enter the account ID for the extraction platform: ', sPlatform, IntToStr(RandomRange(100000000, 1000000000)) + inttostr(RandomRange(100000000, 1000000000)) )    ; // Won't be used again, just as a formality
+
+  // Confirm and extract
+  if MessageDlg('Are you sure that you want to extract '+IntToStr(iAmmount) +' points to ' + sPlatform, TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) = mrNo  then
+  begin
+    // If the user does not want to extract the points
+    Sleep(200) ;
+    ShowMessage('Point Extraction Cancelled');
+    Exit;
+  end;
+
+  tblPointsExtracted.Append ;
+
+  tblPointsExtracted['CustomerID'] := tblCustomer_Info['CustomerID'] ;
+  tblPointsExtracted['AmountExtracted'] := iAmmount ;
+  tblPointsExtracted['DateOfE'] := Today;
+  tblPointsExtracted['Platform'] := sPlatform ;
+
+  tblPointsExtracted.Post ;
+
+
+  // Upadate panel displays
+  iTotalExtracted := iTotalExtracted + iAmmount ;
+  iRemainder := iRemainder - iAmmount ;
+
+  pnlTotalExtracted.Caption := 'Total Points Extracted: '+ IntToStr(iTotalExtracted);
+  pnlPointsRemaining.Caption :=  'Points Remaining: ' + IntToStr(iRemainder) ;
+
+   // Set the max value of the extraction spind edit to the remainder of points
+  // To prevent the program from braking if the user does not have any points by not setting the max value to 0 (reason for if)
+  if iRemainder = 0 then
+  begin
+      bmbExtractPoints.Enabled := false;
+      sedPointsToExtract.MaxValue := 1 ;
+  end
+  else
+  begin
+    bmbExtractPoints.Enabled := True;
+    sedPointsToExtract.MaxValue := iRemainder ;
+  end;
+
+  sedPointsToExtract.Value := 0;
+  cmbPlatform.ItemIndex := -1;
+
+  ShowMessage('Points successfully extracted.');
+end;
+
+procedure TfrmMain.bmbFeesHelpClick(Sender: TObject);
+var
+  sString :string;
+begin
+// The help button for the fees page
+sString := '-Paid fees will display a list of all the fees you have paid'+#13;
+sString := sString +  '-Outstanding fees will display a list of all the fees that has not been paid.'+#13+'Pay outstanding fee:'+#13+'1.Select a fee from the list that matches indexes displayed in the detailed fee list. *Ignore ''Record''*'+#13 ;
+sString := sString + '2.Click on ''Pay selected Fee'' to pay the selected fee.'+#13 +#13;
+sString := sString + 'MemberShip:'+#13+'-If you are a member but have not paid then you must pay it in the fees outstanding fee section.'+#13+'-If you are not a member yet, you can click on the big button and pay R300 to become one ';
+ShowMessage(sString);
+end;
+
+procedure TfrmMain.bmbLoginHelpClick(Sender: TObject);
+var
+  sString : string;
+begin
+// The help button for the Login Page
+sString := 'Login to your account.' ;
+sString := sString +#13+ 'Only Select Login as Admin if you are an Admin' ;
+ShowMessage(sString) ;
+end;
+
+procedure TfrmMain.bmbLoginResetClick(Sender: TObject);
+begin
+// Clears the login Input
+edtLoginUsername.Clear ;
+edtLoginPassword.Clear ;
+chkLoginAdmin.Checked := False ;
+end;
+
+procedure TfrmMain.bmbManagementFromWorkoutClick(Sender: TObject);
+begin
+// Go to the management page from the workout page
+pgcMain.ActivePage.TabVisible := False ;
+tsManagement.TabVisible := True ;
+pgcMain.ActivePage := tsManagement ;
+end;
+
+procedure TfrmMain.btnManagementBecomeMemberClick(Sender: TObject);
+begin
+// Go tho the fees page to become a member from the managemt page
+if not (pgcManagement.ActivePage = tsFees) then
+ButtonBecomeMembership ;
+end;
+
+procedure TfrmMain.btnManageSystemBackClick(Sender: TObject);
+begin
+// Go to the admin home page from the system management page
+pgcMain.ActivePage.TabVisible := False;
+tsAdmin.TabVisible := True;
+pgcMain.ActivePage := tsAdmin ;
+end;
+
+procedure TfrmMain.bmbManageSystemFromAAMClick(Sender: TObject);
+begin
+// Go to the system management page from the admin account management page
+pgcMain.ActivePage.TabVisible := False;
+tsManageSystem.TabVisible := True;
+pgcMain.ActivePage := tsManageSystem ;
+end;
+
+procedure TfrmMain.BmbMemInfoClick(Sender: TObject);
+begin
+  // Info to tell the user which benefits they would gain by Paying for a membership
+  ShowMessage('The membership will allow you to earn points on your workouts.'+#13+'If you do not get a membership now; you will be charged R300 later on instead of R250');
+end;
+
+procedure TfrmMain.bmbPointHelpClick(Sender: TObject);
+var
+  sString : string;
+begin
+// THe help button for the points management page
+sString := '1.Select a platform that you want to export to. This platform will then handle your points worth from there.'+#13;
+sString := sString + '2.Select the amount of points that you want to export. It should be a number between 1 and the remainder of your points.'+#13;
+sString := sString + '3.Press button to export and enter you account number for you selected platform.' +#13+#13;
+sString := sString + '-If you want to see you export log; click on the ''List of extractions'' button' ;
+ShowMessage(sString) ;
+end;
+
+procedure TfrmMain.BmbRecoverLoginClick(Sender: TObject);
+var
+  sLine, sID, sUsername ,sPassword : string ;
+  iPos, iId : integer ;
+  tFile : textFile ;
+begin
+// Retrieve the Username and password of the account that is selected in the list box
+
+    // VAllidation
+    if lstAccountSelect.ItemIndex = -1 then
+    begin
+      ShowMessage('Please Select an account.') ;
+      Exit ;
+    end;
+// Get the ID
+  sLine := lstAccountSelect.Items[lstAccountSelect.ItemIndex];
+
+  iPos := Pos(':', sLine) ;
+  Delete(sLine, iPos, 1) ;
+   iPos := Pos(':', sLine) ;
+
+  iId := StrToInt(Copy(sLine, iPos+2, length(sLine)) )    ;
+  // Get the txt file
+  sID := 'Accounts\'+Encrypt(IntToStr(iId))  + '.txt' ;
+
+      AssignFile(tFile, sID)  ;
+        if not FileExists(sID)	 then  // File existing problems occuring
+        begin
+          ShowMessage('System Error: Account Login File Not Found. '+#13+'Contact Admins') ;
+
+          Rewrite(tFile) ;
+
+          Append(tFile) ;
+          Write(tFile, Encrypt(IntToStr(randomrange(100000,1000000))	)+'#'+Encrypt('TempLogin')) ;
+        end;
+
+        // Get the Username and password
+        Reset(tFile) ;
+
+        Readln(tFile, Sline)  ;
+
+        iPos := Pos('#', sline) ;
+
+        // Decrypt the stored login details from the txt file
+        sUsername := Decrypt(Copy(sLine, 1, ipos-1) ) ;
+
+        sPassword :=  Decrypt(Copy(sLine, iPos+1, length(sLine)) ) ;
+
+       lblAccountDisplayUsername.Caption := 'Username: ' + sUsername ;
+       lblAccountDisplayPassword.Caption := 'Password: ' + sPassword ;
+
+       CloseFile(tFile) ;
+end;
+
+procedure TfrmMain.bmbRegisterBackClick(Sender: TObject);
+begin
+// Go to the startup page from the register page (Back)
+pgcMain.ActivePage.TabVisible := False ;
+tsStartUP.TabVisible := True ;
+pgcMain.ActivePage := tsStartUP;
+end;
+
+procedure TfrmMain.bmbRegisterHelpClick(Sender: TObject);
+var   sString : string ;
+begin
+// Help button for the register page
+
+end;
+
+procedure TfrmMain.bmbResetFeeInputClick(Sender: TObject);
+begin
+// Clear the input of the entred info to search for a user for a fee
+
+edtFeeName.Clear ;
+edtFeeSurname.Clear ;
+sedIDsearch.Value := 0 ;
+end;
+
+procedure TfrmMain.bmbResetLowerBodyClick(Sender: TObject);
+begin
+// Resets the lower body input
+cmbLower_Weights.ItemIndex := -1;
+sedLowerBody.Value := 0;
+end;
+
+procedure TfrmMain.BmbResetrgpUpdateClick(Sender: TObject);
+begin
+// Reset the values of the Delete and Add activity things to the default
+
+rgpFile.ItemIndex := -1 ;
+edtAddAct.Clear ;
+sedActivityReps.Value := 1;
+lstDeleteActivity.Clear ;
+end;
+
+procedure TfrmMain.bmbResetUpdateClick(Sender: TObject);
+begin
+// Resets the update info input from the componets for update user info
+ sedUpdateHeight.Value  := tblCustomer_Info['Height'] ;
+ sedUpdateKg.Value := Trunc(tblCustomer_Info['Weight']);
+ sedUpdateGram.Value := strtoint(FloatToStr(RoundTo(Frac(tblCustomer_Info['Weight']), -3 )*1000) );
+ edtUpdateSurname.Text := tblCustomer_Info['Surname'] ;
+
+
+end;
+
+procedure TfrmMain.bmbResetUpdateLoginClick(Sender: TObject);
+begin
+// Resets the update info input from the edits for update of login details
+edtUpdateUserName.Text := sUsername;
+edtUpdatePassword.Text := sPassword ;
+edtUpdatePasswordConfirm.Text := sPassword ;
+end;
+
+procedure TfrmMain.bmbResetUpperBodyInputClick(Sender: TObject);
+begin
+// Reset the upper body input
+lstUpperWeights.ItemIndex := -1;
+sedUpperBody.Value := 0 ;
+end;
+
+procedure TfrmMain.BmbReset_QuickSelectClick(Sender: TObject);
+begin
+  // Unselects item from the lsit box and clears the memo
+  memCustomDescription.Clear ;
+  lstQuickDescribe.ItemIndex := 0 ;
+end;
+
+procedure TfrmMain.BmbRetryClick(Sender: TObject);
+begin
+  // If the users input was incorrect, they can retry to enter correct input
+  redConfirmInfo.Clear;
+  pnlAgeCheck.Caption := 'Your Age';
+  lblPasswordDisplay.Caption := 'Password:'  ;
+  edtUsernameDisplay.Clear ;
+
+  btnCreateAccount.Enabled := False;
+  chkMyInfo.Enabled := False;
+  pnlRegisterInput.Enabled := true;
+  pnlRegisterInput.Color := clWindow  ;
+
+  grbSummary.Enabled := False ;
+  chkMyInfo.Checked := false ;
+end;
+
+procedure TfrmMain.bmbRetrySearchClick(Sender: TObject);
+begin
+// Clear the input from the Search input by the admin
+  edtSurnameSearch.Clear ;
+  edtNameSearch.Clear ;
+  sedFindByID.Value := 0 ;
+end;
+
+procedure TfrmMain.BmbRetryWorkoutClick(Sender: TObject);
+begin
+  pnlWorkoutSum.Visible := False;
+  pnlWorkout.Visible := True;
+
+  btnEndWorkout.Caption := 'SUBMIT NEW INFO';
+  btnEndWorkout.Enabled := True;
+end;
+
+procedure TfrmMain.btnEndWorkoutClick(Sender: TObject);
+var
+  bStrength, bTime : boolean ;
+  i : integer ;
+  sTime : string;
+  k: Integer;
+begin
+  // Get the input from the user from the compontents, calculate the effort points,
+
+  // Validation
+  bStrength := ListCheckBoxSelected ;
+
+  if  ( (rgpCardio.ItemIndex = -1) and (bStrength = false) and (cmbLower_Weights.ItemIndex = -1) and (lstUpperWeights.ItemIndex = -1)  ) then   // Check that atleast 1 item is selected
+  begin
+    ShowMessage('Please select at least 1 activity.'+#13+'(Any activity)') ;
+    exit;
+  end;
+
+  // Cardio if selected
+  if rgpCardio.ItemIndex <> -1 then
+  begin
+      if sedCardioDistance.Value = 0 then
+      begin
+        ShowMessage('Enter a distance for cardio activity.')   ;
+        exit;
+      end;
+      
+  end;
+
+  // Strength if selected
+
+  if bStrength = True then
+  begin
+    if bCheckListBox = false then
+    begin
+         ShowMessage('Strength Activities Reps not Entered. '+#13+'Complete promt to enter the activities') ;
+         btnEnterReps.Click ;
+         exit;
+    end;
+  end;
+
+  // Lower Body, if selected
+
+  if cmbLower_Weights.ItemIndex <> -1  then
+  begin
+    if sedLowerBody.Value = 0  then
+    begin
+      ShowMessage('Please enter the ammount of reps for your lower body activity') ;
+      exit;
+    end;
+  end;
+
+   // Upper Body, if selected
+
+   if lstUpperWeights.ItemIndex <> -1 then
+   begin
+    if sedUpperBody.Value = 0 then
+    begin
+        ShowMessage('Please enter the ammount of reps for your upper body activity') ;
+       exit;
+    end;
+
+   end;
+
+  // For the purpose of the PAT, give the option to enter the time a workout took manually
+  // Use input query to cancel. If cancel then use the actual end time. If Ok then plus the time entred by the start time to get the end time
+  sTime := '45' ;
+  bTime := InputQuery('PAT PURPOSES '+#13+' (press cancel to use actual time)', 'ENTER TIME FOR ACTIVITY IN MINUTES', sTime) ;
+
+  if bTime = False then // If the user clicks cancel
+  begin
+    dtWorkoutEnd := Now ;
+  end
+  else   // If the user clicks OK
+  begin
+     try
+      iTimeForActivity := StrToInt(sTime) ;
+       // Validation
+       if not (iTimeForActivity >= 1) then
+       begin
+         ShowMessage('Invalid PAT Purpose time; Has to be more than 1 minute. Press End button again and enter a valid time in minutes for the pat purpose time');
+         Exit;
+       end;
+
+      except
+      on E: Exception do
+     begin
+        ShowMessage('Error with time input: '+ E.Message+#13+ '-Press End Workout again and enter a valid time') ;
+        Exit;
+     end;
+
+    end;
+
+    dtWorkoutEnd := dtWorkoutStart + (iTimeForActivity / (24 * 60));  // 24 hours * 60 minutes . Doen to convert 45 min to a fraction of a day
+  end;
+   // ShowMessage(DateTimeToStr(dtWorkoutEnd)  ) ;
+
+   // Change visual
+  // Show annother panel where the user can confirm that they entered the correct info; this will allow for array calculatiosn as it can be changed if a mistake was made
+  pnlWorkout.Visible := False;
+  pnlWorkoutSum.Visible := True;
+  btnEndWorkout.Enabled := False;
+  btnEndWorkout.Caption := 'End Workout';
+
+   // Display to confirmation in richedit.
+   redWorkoutSum.Clear ;
+   redWorkoutSum.Paragraph.TabCount := 1;
+   redWorkoutSum.Paragraph.Tab[0] := 120 ;
+   redWorkoutSum.SelAttributes.Color := clRed ;
+   redWorkoutSum.Lines.Add('Activity'+#9+'Reps/Distance');
+
+   // Cardio
+   if rgpCardio.ItemIndex <> -1 then
+   begin
+     redWorkoutSum.Lines.Add('CARDIO:'+#13+rgpCardio.Items[rgpCardio.ItemIndex] +#9+ inttostr(sedCardioDistance.Value) +' km') ;
+   end;
+
+   // Strength
+   if bStrength = True then
+    begin
+      redWorkoutSum.Lines.Add('STRENGTH:') ;
+
+       for k := 1 to  iStrengthSelectedCount do
+        begin
+        redWorkoutSum.Lines.Add(arrStrengthSelectedNames[k]+#9+ inttostr(arrStrengthReps[k])) ;
+        end;
+    end;
+
+   // Lower Body
+   if cmbLower_Weights.ItemIndex <> -1 then
+   begin
+     redWorkoutSum.Lines.Add('LOWER BODY:'+#13+cmbLower_Weights.Items[cmbLower_Weights.ItemIndex]+#9+ inttostr(sedLowerBody.Value) )  ;
+   end;
+
+   // Upper Body
+   if lstUpperWeights.ItemIndex <> -1 then
+   begin
+     redWorkoutSum.Lines.Add('UPPER BODY:'+#13+lstUpperWeights.Items[lstUpperWeights.ItemIndex]+#9+inttostr(sedUpperBody.Value)) ;
+   end;
+
+end;
+
+procedure TfrmMain.bmbSearchUserHelpClick(Sender: TObject);
+var
+  sString : string ;
+begin
+// Help button for Search for user account
+sString  := '1.Enter the Name or/and the Surname or enter just the ID of the account' +#13;
+sString := sString + '2.See the Index number of each account in the rich edit displayed. '+#13+ '3.Then select the accont you want to work with from the list box according to the index'  ;
+ShowMessage(sString) ;
+end;
+
+procedure TfrmMain.bmbShowFeeReasonClick(Sender: TObject);
+begin
+  // Showmessage to display the custom reason that the admin entered in the inpupbox (Show what the reason for the fee wil be)
+
+  ShowMessage(sFeeReason);
+end;
+
+procedure TfrmMain.bmbSignInBackClick(Sender: TObject);
+begin
+// Go to the startup page from the sign in page (Back)
+pgcMain.ActivePage.TabVisible := False ;
+tsStartUP.TabVisible := True ;
+pgcMain.ActivePage := tsStartUP;
+end;
+
+procedure TfrmMain.bmbStatsHelpClick(Sender: TObject);
+var
+  sString : string;
+begin
+// the help button for the main stats page
+sString := '1.Click load and then Click on the date of the workout to see stats about it.' +#13+'-If a ''---'' appears next to the date, then is is because you did more than one activity on that day. The first activity of that day will not have a ''---'' ; after that they will have a ''---'' starting at the index of 1 and increasing for more activities' ;
+sString  := sString + #13 + '-Click on the see workout description button to see the description that was the input of the workout'+#13 ;
+// Info about graph
+sString  := sString + #13 + 'Graph Help:' + #13+ '1.Click on the big Display graph button. (Click on ''Graph'' at the bottom of the page to go to the graph page' + #13;
+sString  := sString + '2.You can then click on the bar of the graph, to see information about that day';
+ShowMessage(sString) ;
+end;
+
+procedure TfrmMain.bmbSystemManageHelpClick(Sender: TObject);
+begin
+// Manage System help.
+ShowMessage('Manage the activities on the workout page. * Note: The system has be be restarted for changes to take effect.'+#13+'1.Select activiy type from the radiogroup.'+#13+'2.Either add an activity by adding the name and the points per rep.'+#13+'OR'+#13+'Remove an activity by selecting it in the list and then clicking on delete activity.') ;
+end;
+
+procedure TfrmMain.bmbSystemManageMentClick(Sender: TObject);
+begin
+// Go the the System management page from the admin home page
+pgcMain.ActivePage.TabVisible := FAlse;
+tsManageSystem.TabVisible := True ;
+pgcMain.ActivePage := tsManageSystem ;
+end;
+
+procedure TfrmMain.bmbUpdateHelpClick(Sender: TObject);
+var
+  sString : string;
+begin
+// The help button for the update account page
+sString := '--To update your account details, modify the details/Enter new details displayed in the input spaces'+#13;
+sString := sString + '--To update Login details, enter the new details in the input space provided. *Note: Once a username is changed, you can NEVER revert to the changed one.';
+sString := sString + #13 + 'Delete Account: '+#13+'Press the button and confirm. It will remove all your date from the system. This cannot be undone' ;
+ShowMessage(sString);
+end;
+
+procedure TfrmMain.bmbWorkoutHelpClick(Sender: TObject);
+var
+  sString : string ;
+begin
+// The help/Info button for the Workout page
+//Workout
+sString := 'Workout: ' +#13+'1.Click the ''Start Workout'' button to start.' +#13+'2.Select at least 1 activity and enter the reps for that activity' +#13;
+sString := sString + '*You have to click ''Enter reps for each strength activity'' and then add a number between 1 and 250 for each of the activities in the dialogues provided.'+#13+'*If you change one of the strength activities after having added the reps by adding one/removeing one/wanting to enter a different reps number; you will have to enter the reps for each activity again.'+#13;
+sString := sString + '3.Click on ''End Workout'' to end the workout.' +#13+'*PAT PURPOSES: You can enter the minutes it took you to complete your activity in the dialogue box and then click yes. If you say no, then the actual time it took you to complete the activity will be used.'  +#13;
+// Confirm workout (Workout sum)
+sString := sString +#13+ 'Confirm the workout info:'+#13+ '1.Check that your activities and reps/distance is correct.' +#13+'2.Select a quick message(description) from the list or leave it at NONE. You can also add your own custom message that should be less than 150 characters.' ;
+
+// Add that you cant become a member during an activity
+
+ShowMessage(sString);
+end;
+
+procedure TfrmMain.bmbWorkoutPageNextClick(Sender: TObject);
+begin
+// Next; Go to the stats page from the Workout page
+pgcMain.ActivePage.TabVisible := False;
+tsStatistics.TabVisible := True ;
+pgcMain.ActivePage := tsStatistics ;
+end;
+
+procedure TfrmMain.btnAddActClick(Sender: TObject);
+var
+  sFileName, sActivityName : string;
+  iPoints : integer ;
+  tFile : textFile ;
+begin
+//Àdd an activiy of the selected type to the text file of the selected type
+
+// MAx 20 for stength activities
+// Max 10 for Lower and Upper body activities
+
+// Validation
+  if rgpFile.ItemIndex = -1  then
+  Begin
+    ShowMessage('Please Select an activity file to update at the above') ;
+    Exit;
+  End;
+
+  case  rgpFile.ItemIndex of // The file to work with and the setup
+  0 : begin  // Strength
+        if iStrengthSelectedCount < 20 then
+        begin
+           sFileName :=  'Stength_Activities.txt' ;
+        //   sTitle := 'Strength Activities' ;
+        end
+        else
+        begin
+          ShowMessage('To many activities. Must be 20 or less')  ;
+          exit ;
+        end;
+
+      end;
+
+  1 : begin // Lower Body
+        if iLowerBodyCount < 10 then
+        begin
+          sFileName := 'Lower_Body.txt' ;
+        //  sTitle := 'Lower Body Activities' ;
+        end
+          else
+        begin
+          ShowMessage('To many activities. Must be 10 or less')  ;
+          exit ;
+        end;
+
+      end;
+
+  2: begin  // Upper Body
+        if iUpperBodyCount < 10 then
+        begin
+           sFileName :=  'Upper_Body.txt' ;
+         //  sTitle := 'Upper Body Activities'  ;
+        end
+         else
+        begin
+          ShowMessage('To many activities. Must be 10 or less')  ;
+          exit ;
+        end;
+
+      end;
+  end;
+
+  sActivityName := edtAddAct.Text ;
+  // Validation
+  if (sActivityName = '') or (sActivityName = ' ') then
+  begin
+    ShowMessage('Please enter an activity.');
+    Exit;
+  end;
+
+  iPoints :=sedActivityReps.Value ;
+
+   // Add the activity
+  AssignFile(tFile, sFileName) ;
+  if not FileExists(sFileName)  then
+  begin
+    Rewrite(tFile) ;
+    ShowMessage('The file was not found. New file has been created') ;
+  end;
+
+  Append(tFile);
+  Writeln(tFile, (sActivityName +'#'+inttostr(iPoints))) ;
+
+  CloseFile(tFile) ;
+
+   // For checking that arrays wont be full when the system starts up the next time
+  case rgpFile.ItemIndex of
+  0 : Inc(iStrengthSelectedCount);
+  1: Inc(iLowerBodyCount)     ;
+  2: Inc(iUpperBodyCount)   ;
+  end;
+
+  edtAddAct.Clear ;
+  sedActivityReps.Value := 1 ;
+
+  lstDeleteActivity.Items.Add(sActivityName +'#'+inttostr(iPoints))  ;
+Sleep(100);
+// Tell about system restart required
+ShowMessage(sActivityName +' has successfully been added to ' +rgpFile.Items[rgpFile.ItemIndex]+' file, with '+inttostr(iPoints)+' points per rep.'+#13+'For Changes to take effect, THE SYSTEM NEEDS TO BE RESTARTED!');
+
+end;
+
+procedure TfrmMain.btnAddAdminClick(Sender: TObject);
+var
+  sAdminUsername, sAdminPassword, sAdminPasswordConfirm, sLine : string ;
+  tFile :  textFile ;
+begin
+// Add admins to the system
+  sAdminUsername := edtAdminUsername.Text ;
+  sAdminPassword := edtAdminPassword.Text ;
+  sAdminPasswordConfirm := edtAdminPasswordConfirm.Text ;
+
+  // Validation
+
+    // Username
+    if (sAdminUsername = '') or  (sAdminUsername = ' ')  then
+    begin
+      ShowMessage('Enter a Username!');
+      Exit;
+    end;
+
+    if not ((sAdminUsername.Length >= 5) and ( Length(sAdminUsername) <= 16  )) then
+    begin
+      ShowMessage('Username should be between 5 and 16 characters') ;
+      Exit;
+    end;
+
+    // Password
+
+    if  (sAdminPassword = '') or (sAdminPassword = ' ') then
+    begin
+      ShowMessage('Please enter a password') ;
+      Exit ;
+    end;
+
+      if not ((Length(sAdminPassword) >= 8) and (Length(sAdminPassword) <= 16 )) then
+      begin
+        ShowMessage('Password Should be between 8 and 16 character long.');
+        exit;
+      end;
+
+
+    if not (sAdminPassword = sAdminPasswordConfirm ) then
+    begin
+      ShowMessage('Passwords do not match')  ;
+      exit ;
+    end;
+
+    // Check that Admin username does not exist
+    AssignFile(tFile, 'Admin_Accounts.txt')  ;
+
+    if not FileExists('Admin_Accounts.txt')  then
+    begin
+      Rewrite(tFile) ;
+      ShowMessage('Admin txt file was not found. New one created') ;
+    end;
+
+    Reset(tFile) ;
+
+    while not Eof(tFile)  do
+    begin
+      Readln(tFile, sLine) ;
+
+      if Uppercase(sAdminUsername) = Uppercase(Copy(sLine, 1, Pos('#', sLine)-1 ))  then     // Not Case sensitive for clarity reasons; However case sensitive when logging in
+      begin
+        ShowMessage('Admin Username already exists. Enter another!');
+         CloseFile(tFile);
+        exit ;
+      end;
+    end;
+
+    // Write the new admin account to the txt file
+
+    Append(tFile) ;
+    Writeln(tFile, sAdminUsername +'#'+sAdminPassword) ;
+
+    CloseFile(tFile);
+
+    edtAdminUsername.Clear ;
+    edtAdminPassword.Clear ;
+    edtAdminPasswordConfirm.Clear ;
+
+    ShowMessage('Admin Account was added successfully') ;
+
+end;
+
+procedure TfrmMain.btnAddAdminShowClick(Sender: TObject);
+begin
+  // Add an Admin Account make visible
+
+  grbAddAdmin.Visible := True ;
+  grbDeleteAdmin.Visible := False;
+  btnAddAdminShow.Visible := False ;
+  btnRemoveAdminShow.Visible := True ;
+end;
+
+procedure TfrmMain.btnAddFeeClick(Sender: TObject);
+var
+  rFee : real ;
+begin
+// Add the fee to the selected account
+
+ // Validation
+ if (sFeeReason = '') or (sFeeReason = ' ') then
+ begin
+   ShowMessage('Please Enter/Select a fee reason.') ;
+   exit ;
+ end;
+
+ // Add fee
+ rFee :=   sedRands.Value + sedCents.Value / 100;
+ tblFees.Append ;
+
+ tblFees['CustomerID'] := tblCustomer_Info['CustomerID'];
+ tblFees['Fee'] :=  rFee ;
+ tblFees['Paid'] := False ;
+ tblFees['DateOfFee']  := date ;
+ tblFees['Reason'] := sFeeReason ;
+
+ tblFees.Post ;
+
+ ShowMessage('Fee added to account ID '+ inttostr(tblCustomer_Info['CustomerID'])+' with the holder name of '+ tblCustomer_Info['CustomerName']+' '+tblCustomer_Info['Surname']+'.'+#13+'Reason: '+ sFeeReason+#13+'Amount: '+ FloatToStrf(rFee, ffCurrency, 10,2) );
+
+ // Initialize the countdown timer to allow for an undo of the fee that was last added to fee table
+   begin
+    btnUndoAddFee.Enabled := True ;
+    iTimerCountdown := 10 ;
+    TimerUndoFee.Enabled := True ;
+
+    btnUndoAddFee.Caption := 'Undo (10)';
+   end;
+
+end;
+
+procedure TfrmMain.btnBackClick(Sender: TObject);
+var
+  bFound : boolean ;
+begin
+  // Loop thru the database but backwards, go the the previous records
+
+  // go back in the databsase untill the first record is reached or the criteria in found
+
+  // Validation
+    if not sedIDsearch.Value = 0 then
+    begin
+    ShowMessage('Only works for name and surname searches') ;
+    exit ;
+    end;
+
+
+  bFound := FAlse ;
+  while not tblCustomer_Info.Bof and (bFound = false)  do  // BOF, means beginning of file
+  begin
+     tblCustomer_Info.Prior ;
+    if  (UpperCase(edtFeeName.Text) = UpperCase(tblCustomer_Info['CustomerName']) ) and (UpperCase(edtFeeSurname.Text) = UpperCase(tblCustomer_Info['Surname'])) then
+    begin
+      bFound := True ;
+    end
+
+  end;
+
+  if bFound = False then
+  ShowMessage('No more matching accounts found');
+
+end;
+
+procedure TfrmMain.btnCalcPointsClick(Sender: TObject);
+begin
+// Points Management calculation button. Calculate how much points the user has
+
+  iTotalEarned := 0;
+  iTotalExtracted := 0 ;
+
+  // Calculate the total points earned
+
+  tblVisits.First ;
+
+   while not tblVisits.Eof do
+   begin
+    if tblVisits['CustomerID'] = tblCustomer_Info['CustomerID'] then
+    begin
+      iTotalEarned := iTotalEarned + tblVisits['EffortPoints']  ;
+    end;
+
+   tblVisits.Next ;
+   end;
+
+   // Calculate the total points Extracted
+
+   tblPointsExtracted.First ;
+
+   while not tblPointsExtracted.Eof  do
+   begin
+       if tblPointsExtracted['CustomerID'] = tblCustomer_Info['CustomerID'] then
+       begin
+         iTotalExtracted := iTotalExtracted + tblPointsExtracted['AmountExtracted'];
+       end;
+
+    tblPointsExtracted.Next ;
+   end;
+
+  iRemainder := iTotalEarned - iTotalExtracted ;
+
+  // Display
+  pnlTotalEarned.Caption := 'Total Points Earned: '+ inttostr(iTotalEarned);
+  pnlTotalExtracted.Caption := 'Total Points Extracted: '+ IntToStr(iTotalExtracted);
+  pnlPointsRemaining.Caption :=  'Points Remaining: ' + IntToStr(iRemainder) ;
+
+  // Set the max value of the extraction spind edit to the remainder of points
+  // To prevent the program from braking if the user does not have any points by not setting the max value to 0 (reason for if)
+  if iRemainder = 0 then
+  begin
+      bmbExtractPoints.Enabled := false;
+      sedPointsToExtract.MaxValue := 1 ;
+  end
+  else
+  begin
+    bmbExtractPoints.Enabled := True;
+    sedPointsToExtract.MaxValue := iRemainder ;
+  end;
+
+  bClicked := True ;
+end;
+
+procedure TfrmMain.btnClosePanelExtractSumClick(Sender: TObject);
+begin
+// Hide the point extractions summary panel and show the point management page
+pnlExtractionSummary.Visible := false ;
+redExtractionSum.Clear ; // Cleared for memory management
+end;
+
+procedure TfrmMain.btnConfirmInfoClick(Sender: TObject);
+const
+  arrWords : array[1..7] of string = ('Legend', 'Mountain', 'Dog', 'Tree',  'Grass', 'Car', 'Music') ;
+var
+  cChar, c : char;
+  bNumber, bSpecialChar, bCapital, bErrorChacacter, bUserNameExists : boolean ;
+  tFile : textFile ;
+  iNumGenerate : integer ;
+  sLine : string ;
+begin
+// Confirm that the input entered for registration is valid and what the user intended to enter
+
+  // Read into variables
+  sNameRegister := edtName.Text ;
+  sSurnameRegister := edtSurname.Text ;
+
+  sRegisterPassword := edtPassword.Text ;
+  sRegisterPasswordConfirm := edtConfirmPassword.Text ;
+
+  dDateOfBirthRegister  := dtpDateOfBirth.Date ;
+
+  iHeightRegister := sedHeight.Value ;
+
+  rWeight := sedKilogram.Value  + sedGram.Value  /1000;
+
+  bNumber := False ;
+  bSpecialChar := False ;
+  bCapital  :=    False ;
+
+  bErrorChacacter := False;
+
+// Validation
+
+  //Name
+  if (sNameRegister = ' ') or (sNameRegister = '') then
+  begin
+    ShowMessage('Enter a name')  ;
+    exit;
+  end;
+
+  if not ((sNameRegister.Length >= 2) and  (length(sNameRegister) <= 12)) then
+  begin
+    ShowMessage('Name should be between 2 and 12 characters in length')    ;
+    exit;
+  end;
+
+
+  for cChar  in sNameRegister do
+  begin
+    if not ( cChar in ['a'..'z'] ) and not (cChar in ['A'..'Z']) then
+    begin
+      ShowMessage('Name must only consist out of ALPHABET CHARACTERS')   ;
+      exit;
+    end;
+
+  end;
+
+
+  // Surname
+
+  if (sSurnameRegister = ' ') or (sSurnameRegister = '') then
+  begin
+    ShowMessage('Enter a Surname')  ;
+    exit;
+  end;
+
+
+  if not ((sSurnameRegister.Length >= 2) and  (length(sSurnameRegister) <= 30)) then
+  begin
+    ShowMessage('Surname should be between 2 and 30 characters in length')    ;
+    exit;
+  end;
+
+
+   for cChar  in sSurnameRegister do
+    begin
+      if not ( cChar in ['a'..'z'] ) and not (cChar in ['A'..'Z']) and not (cChar = ' ') then
+      begin
+        ShowMessage('Surname may only consist out of ALPHABET CHARACTERS and SPACES')   ;
+        exit;
+      end;
+
+    end;
+
+  if sSurnameRegister[LEngth(sSurnameRegister)] = ' ' then
+  begin
+    Showmessage('Remove space at END of surname' ) ;
+    exit;
+  end;
+
+  // Password
+
+  if not ((Length(sRegisterPassword) >= 8) and (Length(sRegisterPassword) <= 16 )) then
+  begin
+    ShowMessage('Password Should be between 8 and 16 character long.');
+    exit;
+  end;
+  
+  
+  for cChar  in sRegisterPassword  do
+    begin
+
+      for c in arrKeyCharacter  do
+      begin
+          if  (cChar = c) then
+          begin
+          bErrorChacacter := False ;
+          break;
+          end
+
+      end;
+
+      if bErrorChacacter = true then
+      begin
+        ShowMessage('Invalid/Unsupported character in Password'+#13+'(Spaces are not allowed)')  ;
+        exit;
+      end
+      else
+      bErrorChacacter := true;
+
+
+
+      if cChar in ['0'..'9'] then
+      bNumber := True ;
+
+      if cChar in ['A'..'Z'] then
+       bCapital := True;
+
+        if bSpecialChar = false then
+        begin
+            for c in arrSpecialCharacter  do
+            begin
+               if cChar = c then
+               begin
+               bSpecialChar := true ;
+
+               break ;   // exit the loop but not the procedure
+               end;
+
+
+            end;
+        end;
+
+    
+    end;
+
+    if not (bNumber = true and bCapital = true and bSpecialChar = true) then
+    begin
+      ShowMessage('Password does not meet the requirement.'+#13+'Password should contain atleast 1:'+#13+'-Special character'+#13+'-Capital Letter'+#13+'-Number');
+      exit;
+    end;
+
+    if not (sRegisterPassword = sRegisterPasswordConfirm ) then
+    begin
+      ShowMessage('Password do not match' )  ;
+      exit;
+    end;
+
+
+    // Date of birth
+
+    if dDateOfBirthRegister > date then  // Check that the date was not selected into the future
+    begin
+      ShowMessage('Invalid date. Please insert a valid date') ;
+      Exit;
+    end;
+
+    if not ((YearsBetween(dDateOfBirthRegister, date) >= 13 ) and (YearsBetween(dDateOfBirthRegister, date) <= 100) ) then
+    begin
+      ShowMessage('Inappropriate age.You need to be between 13 and 100 years old')  ;
+      exit ;
+    end;
+
+
+
+    // Gender
+
+    if rgpGender.ItemIndex = -1 then
+    begin
+      ShowMessage('Please select a Gender') ;
+      rgpGender.Color := clRed;
+      exit;
+    end;
+
+
+    // Membership Info message
+
+    if chkMembership.Checked = false then
+    begin
+      ShowMessage('You will not be charged a membership.'+#13+'NOTE: YOU WILL NOT EARN POINTS UNTILL YOU GET A MEMBERSHIP') ;
+    end;
+
+
+
+   // Create the username
+
+   sUsernameCreate := sNameRegister + upcase(sSurnameRegister[1]) + upcase(sSurnameRegister[length(sSurnameRegister)]);
+
+   sUsernameCreate :=sUsernameCreate + copy(inttostr(YearOf(dDateOfBirthRegister)), 3,4 ) ;
+
+   // Generate the word for the username (Index in the array)
+    iNumGenerate :=  RandomRange(1,8)  ;
+
+      if iNumGenerate <=3 then
+      begin
+        iNumGenerate   :=  RandomRange(1,8)  ;
+        if iNumGenerate = 1 then
+        iNumGenerate   :=  RandomRange(1,8)  ;
+      end;
+
+   sUsernameCreate := sUsernameCreate + arrWords[iNumGenerate] ;
+
+   iNumGenerate := RandomRange(100,1000)   ;
+
+   // Check if the username already exists
+   AssignFile(tFile , 'Usernames.txt');
+   if not FileExists('Usernames.txt')  then
+   begin
+     ShowMessage('Username Track File was not found');
+     Rewrite(tFile);
+     exit ;
+   end;
+
+
+   repeat
+       bUserNameExists := FAlse ;
+
+         Reset(tFile) ;
+
+       while not Eof(tFile) and (bUserNameExists = False) do
+       begin
+         readln(tFile, sline) ;
+
+         if Uppercase(sLine) = Uppercase((sUsernameCreate + inttostr(iNumGenerate))) then
+         begin
+           bUserNameExists := True ;
+           iNumGenerate := RandomRange(100,1000)   ;
+
+         end;
+       end;
+
+
+   until bUserNameExists  = false;
+
+   CloseFile(tFile);
+
+   sUsernameCreate := sUsernameCreate + inttostr(iNumGenerate)  ;
+
+  // Confirmation of the Input for the User Registration Setup
+  pnlRegisterInput.Enabled := False ;
+  pnlRegisterInput.Color := clMedGray ;
+
+   grbSummary.Enabled := True;
+
+  btnCreateAccount.Enabled := True;
+  chkMyInfo.Enabled := True;
+  BmbRetry.Enabled := True;
+
+
+
+  // Display to the confirmation Components
+
+      pnlAgeCheck.Caption := 'YOUR AGE: '+IntToStr(YearsBetween(dDateOfBirthRegister  , date) )  ;
+
+      // richEdit
+
+      redConfirmInfo.Lines.Add('Name: '+ sNameRegister ) ;
+      redConfirmInfo.Lines.Add('Surname: '+ sSurnameRegister) ;
+      redConfirmInfo.Lines.Add('Height: '+ inttostr(iHeightRegister)+' cm')   ;
+      redConfirmInfo.Lines.Add('Weight: ' + floattostr(rWeight) + ' kg') ;
+
+      redConfirmInfo.SelAttributes.Size := 18;
+      redConfirmInfo.SelAttributes.Color := clred ;
+      if chkMembership.Checked then
+      redConfirmInfo.Lines.Add('MEMBERSHIP: YES' )
+      else
+       redConfirmInfo.Lines.Add('MEMBERSHIP: NO' ) ;
+      // Username + Password
+      lblPasswordDisplay.Caption := sRegisterPassword ;
+      edtUsernameDisplay.Text := sUsernameCreate ;
+
+
+end;
+
+procedure TfrmMain.btnCreateAccountClick(Sender: TObject);
+vAR
+  bMembership : boolean ;
+  tFile, tUsernameFile : TextFile ;
+begin
+  // Create the account and write to database.
+      bMembership := false ;
+  // Check that chkMyInfo is selected
+
+  if chkMyInfo.Checked = false then
+  begin
+    ShowMessage('Account cannot be created as there is not confirmation that info is true and accurate.')  ;
+    exit;
+  end;
+   {
+  // If the user selected membership then create a dialogue box where the user can pay it now or pay it later
+  if chkMembership.Checked = true then
+  begin
+     // If they pay now, the fee will not be written to tblFees, It will be checked in the Customer_Info tabe. If they want to pay later, then it will be checked in tblCustomer_Info and a fee that is unpaif will be added to tblFees. Before the fee has been paid; the user will not be able to earn points for working out.
+
+
+  end;
+    }
+
+  // Write the username to the txt file containing all of the usernames that ever existed
+
+  AssignFile(tUsernameFile , 'Usernames.txt');
+   if not FileExists('Usernames.txt')  then
+   begin
+     ShowMessage('Username Track File was not found');
+     Rewrite(tUsernameFile);
+     exit ;
+   end;
+
+   Append(tUsernameFile) ;
+
+   Writeln(tUsernameFile, sUsernameCreate) ;
+
+   CloseFile(tUsernameFile) ;
+
+  // Write customer info to database
+  tblCustomer_Info.Append  ;
+
+  tblCustomer_Info['CustomerName'] := sNameRegister ;
+  tblCustomer_Info['Surname'] := sSurnameRegister ;
+  tblCustomer_Info['DateOfBirth'] := dDateOfBirthRegister ;
+  tblCustomer_Info['Height']  := iHeightRegister ;
+  tblCustomer_Info['Weight'] := rWeight ;
+
+  if rgpGender.Items[rgpGender.ItemIndex] = 'Male'  then
+  tblCustomer_Info['Gender'] := 'Male'
+  else
+  tblCustomer_Info['Gender']  := 'Female' ;
+
+  tblCustomer_Info['DateJoined'] := date ;
+
+    // If the user selected membership then create a dialogue box where the user can pay it now or pay it later
+  if chkMembership.Checked = true then
+  begin
+     // If they pay now, the fee will not be written to tblFees, It will be checked in the Customer_Info tabe. If they want to pay later, then it will be checked in tblCustomer_Info and a fee that is unpaif will be added to tblFees. Before the fee has been paid; the user will not be able to earn points for working out.
+    tblCustomer_Info['Member'] := True;
+    bMembership := True ;
+
+  end;   
+
+  tblCustomer_Info.Post ;
+
+  tblCustomer_Info.Last ;  // Set to the new customers record
+
+  // Create text file where login details will be stored
+  AssignFile(tFile,'Accounts\'+ Encrypt(inttostr(tblCustomer_Info['CustomerID']))+'.txt')  ;
+
+  Rewrite(tFile)  ;
+  Append(tFile) ;
+
+  Write(tFile, (Encrypt(sUsernameCreate) +'#'+Encrypt(sRegisterPassword) ) ) ;
+
+  CloseFile(tFile) ;
+
+    // Store the local string in the global variables to use for another thing
+    
+  sUsername := sUsernameCreate ;
+  sPassword :=  sRegisterPassword ;
+
+  if bMembership = true then
+  begin
+         if MessageDlg('Do you want to pay NOW?', TMsgDlgType.mtInformation, [mbYes, mbNo], 0) = mrNo  then    // If they pay now, then a fee wont be added to their fee list
+          begin
+          // Add the fee to the fee table
+            tblFees.Insert ;
+
+             tblFees['CustomerID'] := tblCustomer_Info['CustomerID'] ;
+             tblFees['Fee']  := 250 ;
+             tblFees['Paid'] := False ;
+             tblFees['DateOfFee'] := date ;
+             tblFees['Reason']  := 'Membership'  ;
+
+            tblFees.Post ;
+
+            ShowMessage('Membership fee has been charged to you account as a Fee.') ;
+          end;
+       HideMembershipButtons ;
+  end;
+  Sleep(250);
+  ShowMessage('Username and Password can be changed at account managent')     ;
+
+  // Redirect to workout page
+  pgcMain.ActivePage.TabVisible := False;
+  tsWorkout.TabVisible := True;
+  pgcMain.ActivePage := tsWorkout ;
+end;
+
+procedure TfrmMain.btnCustomeFeeReasonClick(Sender: TObject);
+var
+  bTrue : boolean ;
+begin
+// Custom reaso for fees
+      // Get an input box that will ask the user to type a custom reason for the fee. Deselect the radiogroup
+      // USe a global var to store the message
+
+  rgpFeeReason.ItemIndex := -1;
+ bTrue := True;
+  while bTrue = True do    // Keep asking for input, untill valid input is recieved
+  begin
+
+  sFeeReason := InputBox('Enter Custom Message', 'Less than 50 characters', sFeeReason) ;
+
+      if Length(sFeeReason) > 50  then
+      begin
+        ShowMessage('Reason to long. Current length: '+ inttostr(Length(sFeeReason) ))     ;
+      end
+      else
+      bTrue := False ;
+      {break;  }
+  end;
+
+end;
+
+procedure TfrmMain.btnDeleteAccountClick(Sender: TObject);
+var
+  iId, iPos : integer ;
+  sLine : string ;
+  bResult : boolean ;
+begin
+// Delete an Users entire account when the button is clicked
+  // Validation
+
+  if lstAccountSelect.ItemIndex = -1 then
+  begin
+    ShowMessage('Please Select an account.') ;
+    Exit ;
+  end;
+
+  // Get the ID
+  sLine := lstAccountSelect.Items[lstAccountSelect.ItemIndex];
+
+  iPos := Pos(':', sLine) ;
+  Delete(sLine, iPos, 1) ;
+   iPos := Pos(':', sLine) ;
+
+  iId := StrToInt(Copy(sLine, iPos+2, length(sLine)) )    ;
+
+bResult :=   DeleteAccount(iId)  ;
+
+  if bResult = True then
+  lstAccountSelect.Items.Delete(lstAccountSelect.ItemIndex) ;
+
+end;
+
+procedure TfrmMain.btnDeleteActClick(Sender: TObject);
+var
+  sFileName : string ;
+begin
+//Delete an activiy of the selected type to the text file of the selected type
+
+     if rgpFile.ItemIndex = -1  then // Checks that a file is selected
+    Begin
+      ShowMessage('Please Select an activity file to update at the above') ;
+      Exit;
+    End;
+
+  if lstDeleteActivity.ItemIndex = -1 then // Check that activity to delete is selected
+  begin
+    ShowMessage('Please Select an activity to Delete.') ;
+    Exit;
+  end;
+
+  case rgpFile.ItemIndex of
+  0 :sFileName := 'Stength_Activities.txt';
+  1 : sFileName := 'Lower_Body.txt' ;
+  2 : sFileName := 'Upper_Body.txt' ;
+  end;
+
+ if MessageDlg('Are you sure you want to delete '+lstDeleteActivity.Items[lstDeleteActivity.ItemIndex]+'?', TMsgDlgType.mtConfirmation, [mbYes, mbno], 0) = mrYes  then
+ begin
+     try
+        DeleteLineFromFile(sFileName, lstDeleteActivity.ItemIndex) ;
+        lstDeleteActivity.Items.Delete(lstDeleteActivity.ItemIndex) ;
+     Except
+      on E: Exception do
+       begin
+         ShowMessage('Error Occured: '+E.Message)    ;
+         Exit;
+        end;
+      end;
+
+ end
+ else
+ begin
+   ShowMessage('Deletion of activity CANCELED');
+   Exit;
+ end;
+
+// Decrease the correct counter
+
+  case rgpFile.ItemIndex of
+  0 : Dec(iStrengthSelectedCount);
+  1: Dec(iLowerBodyCount)     ;
+  2: Dec(iUpperBodyCount)   ;
+  end;
+
+
+// Tell about system restart required
+ShowMessage('Activity SuccessFully Deleted.'+#13+'THE SYSTEM NEEDS TO BE RESTARTED FOR CHANGES TO TAKE EFFECT') ;
+end;
+
+procedure TfrmMain.btnDeleteAdminAccountClick(Sender: TObject);
+begin
+// Delete the admin account from the file
+
+  //Validation
+  if cmbDeleteAdmin.ItemIndex = -1 then
+  Begin
+    ShowMessage('Select an Admin account to delete') ;
+    Exit;
+  End;
+
+  if cmbDeleteAdmin.Items.Count =1 then
+  begin
+    ShowMessage('The last admin cannot be deleted')  ;
+    Exit;
+  end;
+
+  DeleteLineFromFile('Admin_Accounts.txt', cmbDeleteAdmin.ItemIndex) ;
+  cmbDeleteAdmin.Items.Delete(cmbDeleteAdmin.ItemIndex) ;  // Remove the deleted account from the comboBox
+
+  ShowMessage('The admin account was deleted successfully.');
+end;
+
+procedure TfrmMain.btnDescriptionClick(Sender: TObject);
+begin
+  // Shows the custom message/ quick message options after a workout
+
+  if btnDescription.Caption = 'Custom Message' then
+  Begin
+    lstQuickDescribe.Hide;
+    lblQuickMessage.Caption :=   'Type your Custom Description (Max 150 characters)';
+    btnDescription.Caption := 'Quick Message';
+    memCustomDescription.Show;
+
+  End
+  else
+  begin
+    lstQuickDescribe.Show;
+    lblQuickMessage.Caption := 'Select Quick Description';
+    btnDescription.Caption := 'Custom Message';
+    memCustomDescription.Hide;
+  end;
+end;
+
+procedure TfrmMain.btnLoadWorkoutsClick(Sender: TObject);
+var
+  iCount : integer ;
+  dDate : TDate ;
+begin
+// Load the different workouts into the list box according to their date
+
+  lstSelectActivityDate.Clear ;
+  iActivityDateCount := 0 ;
+  tblVisits.First ;
+
+  while not tblVisits.Eof do
+  begin
+    if tblVisits['CustomerID'] = tblCustomer_Info['CustomerID'] then
+    begin
+
+      dDate := DateOf(tblVisits['StartTime']) ;
+
+      if not (lstSelectActivityDate.Items.IndexOf(datetostr(dDate)) < 0)  then
+      begin  // Add to the list box with a --- Num if this is not the first activity on that day
+         Inc(iCount) ;
+        lstSelectActivityDate.Items.Add(DateToStr(dDate) + ' --- '+ inttostr(iCount) )     ;
+
+      end
+      else
+      BEgin  // Add to the list box if this is the first activity on that date
+        iCount := 0 ;
+        lstSelectActivityDate.Items.Add(DateToStr(dDate)) ;
+      End;
+
+      // Read the Visits primary key into an array
+
+      arrVisitsKeys[iActivityDateCount] :=  tblVisits['VisitID'] ;
+
+      inc(iActivityDateCount); // Inc after as array starts at 0 (index)
+    end;
+
+  tblVisits.Next ;
+  end;
+
+
+end;
+
+procedure TfrmMain.btnLoginClick(Sender: TObject);
+var
+  bFound, bPassword : boolean ;
+  sID, sLine, sUsernameTest, sPasswordTest, sAdmin : string ;
+  iPos : integer;
+
+  tFile : textFile ;
+
+begin
+// Login into the system
+
+// validation
+
+
+ bPassword := False;
+ bFound := False ;
+
+ if chkLoginAdmin.Checked = False then    // Login As an User
+ begin
+
+    tblCustomer_Info.First ;
+
+      while not tblCustomer_Info.Eof and (bFound = False)  do
+      begin
+
+        sID := Encrypt(inttostr(tblCustomer_Info['CustomerID']))  ;  // Encrypt primary key to match the encrypted txt file name
+        sID := 'Accounts\'+sID + '.txt' ;
+        AssignFile(tFile, sID)  ;
+        if not FileExists(sID)	 then  // File existing problems occuring
+        begin
+          ShowMessage('System Error: Account Login File Not Found. '+#13+'Contact Admins') ;
+
+          Rewrite(tFile) ;
+
+          Append(tFile) ;
+          Write(tFile, Encrypt(IntToStr(randomrange(100000,1000000))	)+'#'+Encrypt('TempLogin')) ;
+        end;
+
+        Reset(tFile) ;
+
+        Readln(tFile, Sline)  ;
+
+        iPos := Pos('#', sline) ;
+
+        // Decrypt the stored login details from the txt file
+        sUsernameTest := Decrypt(Copy(sLine, 1, ipos-1) ) ;
+
+        sPasswordTest :=  Decrypt(Copy(sLine, iPos+1, length(sLine)) ) ;
+
+        if edtLoginUsername.Text = sUsernameTest then
+        begin
+            bFound := True ;
+
+            if edtLoginPassword.Text = sPasswordTest then
+            begin
+              // Go to the workout tabsheet
+             bPassword := True ;
+               // If a member then hide become a member redirect buttons
+              if tblCustomer_Info['Member'] = True then
+              HideMembershipButtons;
+            end
+            else
+            ShowMessage('Incorrect Password');
+        end
+        else
+        tblCustomer_Info.Next ;
+
+       CloseFile(tFile) ;
+
+      end;
+
+      if bFound = FAlse then    // If the account was not found
+      begin
+      ShowMessage('Account was not found');
+      end
+      else
+      if bPassword = True then
+      begin
+      // Steps when the login is successfull
+        sUsername := sUsernameTest ;  // Set the local testing var to the global var to use it for other things
+        sPassword := sPasswordTest ;  // Set the local testing var to the global var to use it for other things
+
+        ShowMessage('Login Successfull. You will be redirected to the Workout Page.')       ;
+
+
+         // Redirect to workout page
+        pgcMain.ActivePage.TabVisible := False;
+        tsWorkout.TabVisible := True;
+        pgcMain.ActivePage := tsWorkout ;
+
+
+
+      end;
+
+ end
+ else
+  if chkLoginAdmin.Checked = True  then // If the user is an Admin, Login as an admin
+  begin
+    AssignFile(tFile, 'Admin_Accounts.txt');
+    if not FileExists('Admin_Accounts.txt') then
+    begin
+      ShowMessage('System Error: Admin Accounts file not found');
+      Rewrite(tFile);
+      Append(tFile) ;
+      Writeln(tFile, 'TempAdmin#AdminTempLogin') ;
+      ShowMessage('Temp Admin Login Created'+#13+'TempAdmin#AdminTempLogin');
+    end;
+
+    Reset(tFile);
+
+    sAdmin := edtLoginUsername.Text + '#' + edtLoginPassword.Text ;
+
+    while not Eof(tFile) and (bFound = False) do
+    begin
+       Readln(tFile, sLine) ;
+
+       if sAdmin = sLine then   // Case sensitive
+       begin
+         bFound := True ;
+       end;
+
+    end;
+
+    if bFound = True then
+    begin  // When the admins login was a success
+     ShowMessage('Login Successful. You will be redirected to the Admin Page');
+
+      // Redirect admin to other tabsheet (Admin page)
+      pgcMain.ActivePage.TabVisible := False;
+      tsAdmin.TabVisible := True;
+      pgcMain.ActivePage := tsAdmin ;
+
+    end
+    else
+    begin
+      ShowMessage('Admin Login was not successful!.')
+    end;
+
+    CloseFile(tFile) ;
+  end;
+
+
+end;
+
+
+
+procedure TfrmMain.btnNextClick(Sender: TObject);
+var
+  bFound : boolean ;
+begin
+  // Continue searching thru the table untill record is found, searches forward.
+
+  // Just continue using .eof. dont reset
+
+  // Validation
+  if not (sedIDsearch.Value = 0) then
+  begin
+  ShowMessage('Only works for name and surname searches') ;
+  exit ;
+  end;
+
+  bFound := FAlse ;
+  while not tblCustomer_Info.Eof and (bFound = false)  do
+  begin
+     tblCustomer_Info.Next;
+    if  (UpperCase(edtFeeName.Text) = UpperCase(tblCustomer_Info['CustomerName']) ) and (UpperCase(edtFeeSurname.Text) = UpperCase(tblCustomer_Info['Surname'])) then
+    begin
+      bFound := True ;
+    end
+
+  end;
+
+  if bFound = False then
+  ShowMessage('No account remaining was Found')  ;
+
+end;
+
+procedure TfrmMain.btnPayFeeClick(Sender: TObject);
+var
+  iPos, iLen : integer;
+  sLine : string;
+begin
+// Pay the fee that is selected in the list box
+
+  // Validation
+  if lstFeeSelect.ItemIndex = -1 then
+  begin
+    ShowMessage('Please select a fee to Pay');
+    Exit;
+  end;
+
+  // Get and set the record number for the fee
+
+   sLine := lstFeeSelect.Items[lstFeeSelect.ItemIndex ] ;
+         // Find pos of the record in the database
+   iPos := Pos('=', sLine) ;
+   Delete(sLine, 1, iPos+1);
+   iPos := Pos(' ', sLine);
+   Delete(sLine, iPos, length(sLine)) ;
+
+  tblFees.RecNo := StrToInt(sLine) ;
+
+  if MessageDlg('Pay fee of: '+floattostrf(tblFees['Fee'], ffCurrency, 10,2)+' ?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) = mrYes  then
+  begin
+  tblFees.Edit ;
+    tblFees['Paid'] := true;
+  tblFees.Post ;
+
+  // Delete the fee from the lst box. Keep rich edit in tact
+    lstFeeSelect.Items.Delete(lstFeeSelect.ItemIndex) ;
+
+    ShowMessage('Fee successfully paid. Well done.');
+  end
+  else
+  ShowMessage('Fee payment cancelled.') ;
+
+end;
+
+procedure TfrmMain.btnRegisterClick(Sender: TObject);
+begin
+// Go to the register page from the startup page (Like Next)
+pgcMain.ActivePage.TabVisible := False ;
+tsRegister.TabVisible := True ;
+pgcMain.ActivePage := tsRegister;
+end;
+
+procedure TfrmMain.btnRemoveAdminShowClick(Sender: TObject);
+var
+  tFile : textFile;
+  sLine : string ;
+begin
+// Delete admin account make visible and populate delete combobox
+
+  grbDeleteAdmin.Visible := True ;
+  grbAddAdmin.Visible := False ;
+  btnRemoveAdminShow.Visible := False ;
+  btnAddAdminShow.Visible := True ;
+
+  // Add items to the Combobox for admin account deletion
+  AssignFile(tFile, 'Admin_Accounts.txt')  ;
+
+    if not FileExists('Admin_Accounts.txt')  then
+    begin
+      Rewrite(tFile) ;
+      ShowMessage('Admin txt file was not found. New one created') ;
+    end;
+
+    Reset(tFile) ;
+    cmbDeleteAdmin.Clear ;
+    while not Eof(tFile)  do
+    begin
+      Readln(tFile, sLine) ;
+
+      cmbDeleteAdmin.Items.Add(Copy(sLine, 1, Pos('#', sLine)-1 ) )     ;
+    end;
+   CloseFile(tFile) ;
+end;
+
+procedure TfrmMain.btnResetCardioClick(Sender: TObject);
+begin
+  // Unselect the item selected in the radiogroup
+  rgpCardio.ItemIndex := -1;
+end;
+
+procedure TfrmMain.btnSignInClick(Sender: TObject);
+begin
+// Go to the sign in page from the startup page
+pgcMain.ActivePage.TabVisible := False ;
+tsSignIn.TabVisible := True ;
+pgcMain.ActivePage := tsSignIn;
+end;
+
+procedure TfrmMain.btnStartSearchClick(Sender: TObject);
+var
+  bText, bAlternate, bGO : boolean ;
+  iIndex : integer ;
+  sMember : string ;
+begin
+// Search for accounts matching input from the admin in the from of NAme/Surname/ID
+//Setup
+  redAccountSearch.Clear;
+  lblAccountDisplayUsername.Caption := 'Username:' ;
+lblAccountDisplayPassword.Caption := 'Password:' ;
+  redAccountSearch.Paragraph.TabCount := 6 ;
+
+  lstAccountSelect.Clear ;
+
+  // What a pain this was
+  redAccountSearch.Paragraph.Tab[0] := 35;
+  redAccountSearch.Paragraph.Tab[1] := 70;
+  redAccountSearch.Paragraph.Tab[2] := 130;
+  redAccountSearch.Paragraph.Tab[3] := 250;
+  redAccountSearch.Paragraph.Tab[4] := 295;
+  redAccountSearch.Paragraph.Tab[5] := 345;
+
+  redAccountSearch.SelAttributes.Color := clRed ;
+  redAccountSearch.Lines.Add('Index'+#9+'ID'+#9+'Name'+#9+'Surname'+#9+'Gender'+#9+'Member'+#9+'Age') ;
+
+  bAlternate := False ;
+  iIndex := 0 ;
+  // Validation
+   if  sedFindByID.Value = 0 then
+    begin
+              // Can Be Surname AND Name or Surname or Name
+      if (edtNameSearch.Text = '') and ( edtSurnameSearch.Text = '') then
+      begin
+          ShowMessage('Enter a Name or a Surname or a Customer ID.') ;
+          Exit;
+      end
+      else
+      if (edtNameSearch.Text = '') or ( edtSurnameSearch.Text = '') then
+      begin
+        bAlternate := True;
+      end;
+
+        bText := True ;
+    end
+    else
+    begin
+      bText := False ;
+      edtNameSearch.Clear ;
+      edtSurnameSearch.Clear ;
+    end;
+
+// Display account details if the accout was found into the memo
+// Also add the account to the list box as account index, accountID and then the Name and Surname
+// Display an index number for incase there is more than one account so that the admin can select the one of the accounts they want to delete/edit/recover after seeing all of the accounts
+
+ 
+  tblCustomer_Info.First ;
+  bGo := True ;
+  while not (tblCustomer_Info.Eof) and (bGO = True) do
+  begin
+
+    if ((tblCustomer_Info['CustomerID'] = sedFindByID.Value) and (bText = False)) or
+     ((bText = True) and ((UpperCase(edtNameSearch.Text) = UpperCase(tblCustomer_Info['CustomerName'])) and (UpperCase(edtSurnameSearch.Text) = UpperCase(tblCustomer_Info['Surname'])))) or
+     (( bAlternate = True) and (bText = True) and ((Uppercase(edtNameSearch.Text) = Uppercase(tblCustomer_Info['CustomerName'])) or (Uppercase(edtSurnameSearch.Text) =  Uppercase(tblCustomer_Info['Surname']))))  then
+      begin
+        if tblCustomer_Info['Member'] = True then   // Get Membership Info
+        sMember := 'YES'
+        else
+        sMember := 'NO' ;
+
+        Inc(iIndex) ;
+        // Display to rich edit
+        redAccountSearch.Lines.Add(IntToStr(iIndex) +#9+ inttostr(tblCustomer_Info['CustomerID'])+#9+tblCustomer_Info['CustomerName'] + #9+tblCustomer_Info['Surname']+#9+tblCustomer_Info['Gender']+#9+sMember+#9+IntToStr(YearsBetween(date, tblCustomer_Info['DateOfBirth']) ) );
+
+        // Add to list box
+        // if the spin edit was used (btext = False) ; then select the item in the list box that was added and stop the loop
+        lstAccountSelect.Items.Add('Index: '+ IntToStr(iIndex) +'---CustomerID: '+inttostr(tblCustomer_Info['CustomerID']) );
+          if sedFindByID.Value <> 0 then
+          begin
+            lstAccountSelect.ItemIndex := 0 ;
+            bGO := False ;
+
+          end;
+
+      end;
+
+    tblCustomer_Info.Next ;
+  end;
+
+  if iIndex = 0 then
+  begin
+    ShowMessage('No accounts were found matching the input')
+  end;
+
+end;
+
+procedure TfrmMain.btnStartWorkoutClick(Sender: TObject);
+begin
+  // Start the workout and take the time of the workout start
+  btnStartWorkout.Enabled := False;
+
+  btnEndWorkout.Enabled := True;
+
+  pnlWorkout.Visible := True;
+
+  dtWorkoutStart := Now ;
+
+   bMembershipPaid := True ;
+
+   // Notify the user about the fact that they will not earn points with outastandning membership fees
+
+   if tblCustomer_Info['Member'] = False then
+   ShowMessage('You are not a member, therefore you will not earn points on the activity.'+#13+'*You can''t become a member during the activity.')
+   else
+   begin
+
+     tblFees.First ;
+
+     while not tblFees.Eof  do
+     begin
+      if tblFees['CustomerID'] = tblCustomer_Info['CustomerID'] then
+      begin
+        if tblFees['Reason'] = 'Membership' then
+        begin
+          if tblFees['Paid'] = False then
+          begin
+              ShowMessage('You have not paid for your Membership, therefore you will not earn points on the activity')  ;
+               bMembershipPaid := False;
+              exit;
+          end;
+
+        end;
+
+      end;
+
+     tblFees.Next;
+     end;
+    end;
+
+  // Disable the navigation during the workout
+  bmbManagementFromWorkout.Enabled := False;
+  bmbWorkoutPageNext.Enabled := False;
+  btnWorkoutBecomeMember.Enabled := False; // Can't become a member during and activity
+
+end;
+
+procedure TfrmMain.btnStatsBecomeMemberClick(Sender: TObject);
+begin
+// Go the the fee page to become an admin from the stats page
+ButtonBecomeMembership ;
+end;
+
+procedure TfrmMain.btnSumClick(Sender: TObject);
+var
+  sFieldName : string;
+begin
+// Summarize the point extractions by displaying all of the extractions
+
+redExtractionSum.Clear ;
+redExtractionSum.Paragraph.TabCount := 2;
+redExtractionSum.Paragraph.Tab[0] := 135;
+redExtractionSum.Paragraph.Tab[1] := 300;
+redExtractionSum.SelAttributes.Color := clRed ;
+redExtractionSum.Lines.Add('Points Extracted'+#9+'Date of Extraction'+#9'Platform'+#13);
+
+  // Display the points extracted
+  sFieldName := 'CustomerID';
+  tblPointsExtracted.First ;
+  while not tblPointsExtracted.Eof do
+  begin
+    if tblPointsExtracted[sFieldName] = tblCustomer_Info[sFieldName] then
+    begin
+      redExtractionSum.Lines.Add(IntToStr(tblPointsExtracted['AmountExtracted']) +#9+ DateToStr(tblPointsExtracted['DateOfE']) +#9+ tblPointsExtracted['Platform'] ) ;
+    end;
+
+    tblPointsExtracted.Next ;
+  end;
+
+end;
+
+procedure TfrmMain.btnToFeeManageFromUpdateAClick(Sender: TObject);
+begin
+// Go to the fee management page from the Update account page
+pgcManagement.ActivePage.TabVisible := False;
+tsFees.TabVisible := True ;
+pgcManagement.ActivePage := tsFees;
+end;
+
+procedure TfrmMain.btnToPointManageFromUpdateAClick(Sender: TObject);
+begin
+// Go to the Point management page from the Update account page
+pgcManagement.ActivePage.TabVisible := False;
+tsPoints.TabVisible := True ;
+pgcManagement.ActivePage := tsPoints;
+end;
+
+procedure TfrmMain.btnToPointsFromFeesClick(Sender: TObject);
+begin
+// Go to the points management page  from the fee management page
+pgcManagement.ActivePage.TabVisible := False;
+tsPoints.TabVisible := True ;
+pgcManagement.ActivePage := tsPoints ;
+end;
+
+procedure TfrmMain.btnUndoAddFeeClick(Sender: TObject);
+begin
+  // IF the admin made a mistake with the fee they gave, they will have the option to delete it. They will only het this options once at this point in time
+  // It will delete the last record of the tblFees table (It will be the newest record that gets deleted)
+
+   TimerUndoFee.Enabled := False ;
+   btnUndoAddFee.Caption := 'Undo';
+   btnUndoAddFee.Enabled := False ;
+
+   tblFees.Last ;
+   tblFees.Delete ;
+end;
+
+
+procedure TfrmMain.btnUpdateInfoClick(Sender: TObject);
+var
+  sSurname : string ;
+  cChar : char ;
+begin
+// Update Account info
+
+  sSurname := edtUpdateSurname.Text ;
+
+  // Validation of the surname
+   if (sSurname= ' ') or (sSurname= '') then
+  begin
+    ShowMessage('Enter a Surname')  ;
+    exit;
+  end;
+
+  if not ((sSurname.Length >= 2) and  (length(sSurname) <= 30)) then
+  begin
+    ShowMessage('Surname should be between 2 and 30 characters in length')    ;
+    exit;
+  end;
+
+   for cChar  in sSurname do
+    begin
+      if not ( cChar in ['a'..'z'] ) and not (cChar in ['A'..'Z']) and not (cChar = ' ') then
+      begin
+        ShowMessage('Surname may only consist out of ALPHABET CHARACTERS and SPACES')   ;
+        exit;
+      end;
+
+    end;
+
+  if sSurname[LEngth(sSurname)] = ' ' then
+  begin
+    Showmessage('Remove space at END of surname' ) ;
+    exit;
+  end;
+
+  // Confirmation
+  if MessageDlg('Are you sure you want to update your info?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) = mrNo  then
+  begin
+    ShowMessage('Update of Info has been cancelled.') ;
+    Exit ;
+  end;
+
+  // Write the updated details to the database
+  tblCustomer_Info.Edit ;
+    tblCustomer_Info['Height'] := sedUpdateHeight.Value ;
+    tblCustomer_Info['Weight'] := sedUpdateKg.Value  + sedUpdateGram.Value  /1000;
+    tblCustomer_Info['Surname'] := sSurname ;
+
+  tblCustomer_Info.Post ;
+
+  ShowMessage('Details Updated Successfully.');
+end;
+
+procedure TfrmMain.btnUpdateInfoMessageClick(Sender: TObject);
+begin
+  // Rewrite the txt file containing the old info message with the new info message
+end;
+
+procedure TfrmMain.btnUpdateLoginClick(Sender: TObject);
+var
+  sUsernameUpdate, sPasswordUpdate, sLine : string;
+  cChar, c : char;
+  bErrorCharacter, bNumber, bCapital, bSpecialChar : boolean ;
+  tFile : textfile;
+  iPrimaryKey : integer;
+
+begin
+// Update the login details of the user
+
+   if MessageDlg('Are you sure that you want to Update your Login details?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) = mrNo  then
+   begin
+     ShowMessage('Update of Login details canceled')  ;
+     exit;
+   end;
+
+
+  sUsernameUpdate := edtUpdateUserName.Text ;
+  sPasswordUpdate := edtUpdatePassword.Text ;
+
+  // Validation
+
+    // Username
+    if sUsernameUpdate = '' then
+    begin
+      ShowMessage('Enter a Username')  ;
+      Exit;
+    end;
+
+    if not ((Length(sUsernameUpdate) >= 5) and (length(sUsernameUpdate) <= 20)) then
+    begin
+    ShowMessage('Username length should be 5 to 20 characters long') ;
+    exit;
+    end;
+
+    if Pos('LEGEND', UpperCase(sUsernameUpdate) ) >0   then
+    begin
+      ShowMessage('Username may not contain the word legend.') ;
+      Exit;
+    end;
+
+    // Check that all the characters in the userername for updating are valid for encryption purposes
+      for cChar in  sUsernameUpdate  do
+     begin
+
+      for c in arrKeyCharacter  do
+      begin
+          if  (cChar = c) then
+          begin
+          bErrorCharacter := False ;
+          break;
+          end
+
+      end;
+
+      if bErrorCharacter = true then
+      begin
+        ShowMessage('Invalid/Unsupported character in Username'+#13+'(Spaces are not allowed)')  ;
+        exit;
+      end
+      else
+      bErrorCharacter := true;
+      end;
+
+
+      // Check that the username does not and has not existed before
+
+       AssignFile(tFile, 'Usernames.txt') ;
+
+      if not FileExists('Usernames.txt')  then
+      begin
+      ShowMessage('Usernames file not found. Created') ;
+      Rewrite(tFile);
+      end;
+
+      Reset(tFile);
+
+      while NOT Eof(tFile) do
+      begin
+        Readln(tFile, sLine)  ;
+
+        if UpperCase(sLine) = UpperCase(sUsernameUpdate)  then
+        begin
+          ShowMessage('Username not available, please try another to update to.') ;
+          CloseFile(tFile) ;
+          Exit;
+        end;
+
+      end;
+
+      CloseFile(tFile) ;
+
+      // Password
+
+      if sPasswordUpdate = '' then
+      begin
+        ShowMessage('Please Enter a Password');
+        exit;
+      end;
+
+       if not ((Length(sPasswordUpdate) >= 8) and (Length(sPasswordUpdate) <= 16 )) then
+        begin
+          ShowMessage('Password Should be between 8 and 16 character long.');
+          exit;
+        end;
+
+    bSpecialChar := false;
+    bNumber := False;
+    bCapital := False;
+    bErrorCharacter := True ;
+
+    for cChar  in sPasswordUpdate  do
+      begin
+
+        for c in arrKeyCharacter  do
+        begin
+            if  (cChar = c) then
+            begin
+            bErrorCharacter := False ;
+            break;
+            end
+
+        end;
+
+        if bErrorCharacter = true then
+        begin
+          ShowMessage('Invalid/Unsupported character in Password'+#13+'(Spaces are not allowed)')  ;
+          exit;
+        end
+        else
+        bErrorCharacter := true;
+
+        if cChar in ['0'..'9'] then
+        bNumber := True ;
+
+        if cChar in ['A'..'Z'] then
+         bCapital := True;
+
+          if bSpecialChar = false then
+          begin
+              for c in arrSpecialCharacter  do
+              begin
+                 if cChar = c then
+                 begin
+                 bSpecialChar := true ;
+
+                 break ;   // exit the loop but not the procedure
+                 end;
+
+              end;
+          end;
+
+      end;
+
+      if not ((bNumber = true) and (bCapital = true) and (bSpecialChar = true)) then
+      begin
+        ShowMessage('Password does not meet the requirement.'+#13+'Password should contain at least 1:'+#13+'-Special character'+#13+'-Capital Letter'+#13+'-Number');
+        exit;
+      end;
+
+      if not (sPasswordUpdate = edtUpdatePasswordConfirm.Text ) then
+      begin
+        ShowMessage('Passwords do not match' )  ;
+        exit;
+      end;
+
+
+  // Update the Login details
+  iPrimaryKey := tblCustomer_Info['CustomerID']   ;
+  AssignFile(tFile, 'Accounts\'+Encrypt(inttostr(iPrimaryKey)) +'.txt');
+
+
+  Rewrite(tFile);
+
+  Append(tFile)  ;
+
+  Write(tFile, Encrypt(sUsernameUpdate) +'#'+Encrypt(sPasswordUpdate)  ) ;
+
+  CloseFile(tFile) ;
+
+
+  // Write to the Username txt file, the new username
+
+  AssignFile(tFile, 'Usernames.txt') ;
+
+  if not FileExists('Usernames.txt')  then
+  begin
+  ShowMessage('Usernames file not found. Created') ;
+  Rewrite(tFile);
+  end;
+
+  Append(tFile) ;
+
+  Writeln(tFile, sUsernameUpdate) ;
+
+  CloseFile(tFile);
+
+  // Set new values to global variables
+  sUsername := sUsernameUpdate ;
+  sPassword := sPasswordUpdate ;
+
+  ShowMessage('Login Details was updated successfully')
+end;
+
+procedure TfrmMain.btnUploadWorkoutClick(Sender: TObject);
+var
+  sMessage, sLine, sActivity, sReps : string ;
+  iEffortPoints, iPos, iDivide : integer ;
+  I: Integer;
+  J: Integer;
+  iWeekVisits : integer ;
+  tFile : TextFile ;
+begin
+  // Write to visit table in database, write details to text file and calculate the points
+
+  // Get the optional workout description into a variable
+  if btnDescription.Caption = 'Custom Message' then   // Then the user will be busy with the quick select
+  begin
+  sMessage := lstQuickDescribe.Items[lstQuickDescribe.ItemIndex] ;
+  end
+  else
+  begin
+      sMessage := memCustomDescription.Lines.Text  ;
+      // Check that the length of the custom message is smaller than 150 characters    (Validation)
+        if Length(sMessage) > 150  then
+        begin
+          ShowMessage('Custom Message to Long. Should be shorter than 150 characters.'+#13+'Current Length: '+ inttostr(Length(sMessage) ))  ;
+          Exit;
+        end;
+
+        if (sMessage = '') or (sMessage = ' ') then
+        sMessage := 'NONE' ;
+  end;
+
+
+  // Calculate points (Effort Points)
+  // Allocate a few extra points if the user visited the gym in say the past week. The more often the user came to visit the gym and did a workout, the more bonus points they can gain for exercising reguarly.
+  iEffortPoints := 0 ;
+
+  if (tblCustomer_Info['Member']=  True) and ( bMembershipPaid = True) then
+  begin
+      // Check for outstanding fees
+      // divide by 4 if not paid fee and round
+
+      iDivide := 1;
+      tblFees.First ;
+
+       while not tblFees.Eof  do
+       begin
+          if tblFees['CustomerID'] = tblCustomer_Info['CustomerID'] then
+          begin
+
+              if tblFees['Paid'] = False then
+              begin
+                iDivide := 4 ;
+              end;
+          end;
+
+       tblFees.Next;
+       end;
+
+       if iDivide = 4 then
+       ShowMessage('You will earn less points as you have outstanding Fees. Pay all fees to earn full points.')  ;
+
+      // Cardio
+       if rgpCardio.ItemIndex = 0 then
+      iEffortPoints := sedCardioDistance.Value  * 12 // 12 Points for each km done on a bike
+      else
+      if rgpCardio.ItemIndex = 1 then
+      iEffortPoints := sedCardioDistance.Value  * 25 ; // 25 Points for each km done running
+
+      // Strength
+
+      {if ListCheckBoxSelected  then   }
+
+            for I := 1 to iStrengthSelectedCount  do  // If no item was selected then iStrengthSelectedCount would be = to 0, therefor the loop wil not run
+            begin
+
+              for J := 1 to iStrengthActCount do
+              begin
+
+                  if arrStrengthSelectedNames[I] = arrStrengthOriginalNames[J] then
+                  begin
+                    iEffortPoints := iEffortPoints + arrStrengthReps[I] * arrStrengthPoints[J] ;
+                  end;
+              end;
+
+            end;
+
+      // Lower Body
+
+      if cmbLower_Weights.ItemIndex <> -1 then
+      begin
+        iEffortPoints := iEffortPoints + sedLowerBody.Value * arrLowerBody[cmbLower_Weights.ItemIndex +1 ] ;
+      end;
+
+
+      // Upper Body
+
+      if lstUpperWeights.ItemIndex <> -1 then
+      begin
+       iEffortPoints := iEffortPoints + sedUpperBody.Value * arrUpperBody[lstUpperWeights.ItemIndex +1 ] ;
+      end;
+
+      // Check and allocate points if the user visited in the last week
+      iWeekVisits := 0 ;
+      tblVisits.First ;
+
+      while not tblVisits.Eof  do
+      begin
+        if tblVisits['CustomerID'] = tblCustomer_Info['CustomerID'] then
+        begin
+          if DaysBetween(Date,(tblVisits['StartTime'])) <= 7 then
+          begin
+            Inc(iWeekVisits) ;
+          end;
+
+        end;
+
+      tblVisits.Next ;
+      end;
+
+      iWeekVisits := iWeekVisits * 50 ; // Calculate the points that the person can recieve for visiting often. If the person visits the gym more often, they will earn more points and therefore, by visiting more often, they will live healthier
+
+      iEffortPoints := iEffortPoints + iWeekVisits ;
+
+      // Change the effort points, based on the multiplier from the PointMultiplier function
+      iEffortPoints := Round(iEffortPoints *PointMultiplier(tblCustomer_Info['Height'] ,tblCustomer_Info['Weight'], tblCustomer_Info['DateOfBirth'], dtWorkoutStart, dtWorkoutEnd) ) ;
+
+      if iDivide = 4 then
+      iEffortPoints := Round(iEffortPoints / iDivide) ;
+  end;
+
+  // Write to the datebse
+
+  tblVisits.Append ;
+
+  tblVisits['CustomerID'] := tblCustomer_Info['CustomerID']  ;
+  tblVisits['StartTime'] := dtWorkoutStart ;
+  tblVisits['EndTime']  := dtWorkoutEnd ;
+  tblVisits['EffortPoints'] := iEffortPoints ;
+  tblVisits['Description']  := sMessage ;
+
+  tblVisits.Post  ;
+
+  // Create txt, name after primary key of visits table and write the activity summary to it
+  AssignFile(tFile, 'Workouts\'+inttostr(tblVisits['VisitID'])+'.txt');
+  Rewrite(tFile) ; // Create the file
+
+ // Append(tFile) ;    // Not required as a new file
+
+  // Add contents to the txt file
+  for I := 1 to redWorkoutSum.Lines.Count -1 do
+   begin
+    sLine := redWorkoutSum.Lines[I];
+   // ShowMessage(sLine) ;
+      if Pos(':', sLine) = 0  then
+      begin
+          iPos :=  Pos(#9, sLine) ;
+
+         sActivity :=  Copy(sLine, 1,iPos-1  ) ;
+         sReps :=  Copy(sLIne, iPos +1, Length(sLine) ) ;
+
+         //ShowMessage(sActivity +'#'+sReps) ;
+         Writeln(tFile , sActivity +'#'+sReps) ;
+      end;
+
+   end;
+
+  CloseFile(tFile) ;
+
+  // SHow a message to confirm uploading workout and to show the user how many points that they earned
+  ShowMessage('You workout was uploaded successfully.'+#13+'Points Earned: '+inttostr(iEffortPoints)+#13+'Workout reguarly to earn more points and become healthier!') ;
+
+  // Enable the navigation after the workout
+  bmbManagementFromWorkout.Enabled := True;
+  bmbWorkoutPageNext.Enabled := True;
+   btnWorkoutBecomeMember.Enabled := True;
+
+  // Reset the workout page
+    // The workout sum page
+    redWorkoutSum.Clear ;
+    memCustomDescription.Clear ;
+    lstQuickDescribe.ItemIndex := 0; // Set to NONE
+    pnlWorkoutSum.Hide ;
+    // The workout Input page
+    rgpCardio.ItemIndex := -1    ;
+    sedCardioDistance.Value := 0 ;
+    if bCheckListBox = True then   // When the user has already entered their reps for their strength activities
+    begin
+      // Clear the arrays and unselect items from the check list box
+        for  i := 1 to 20 do
+        begin
+          arrStrengthReps[i] := 0 ;
+          arrStrengthSelectedNames[i] := '' ;
+          if i<= iStrengthActCount then  // Only if the indx is less than the amount of activities
+          chkListStrength.Checked[i-1] := False;
+        end;
+    end;
+   bCheckListBox := False ;
+   chkListStrength.ItemIndex := -1;
+   cmbLower_Weights.ItemIndex := -1;
+   sedLowerBody.Value := 0;
+   lstUpperWeights.ItemIndex := -1;
+   sedUpperBody.Value := 0 ;
+
+   btnStartWorkout.Enabled := True ;
+
+end;
+
+procedure TfrmMain.btnWorkoutBecomeMemberClick(Sender: TObject);
+begin
+// Redirect the user from the workout page to the fees page so that they can become a member
+ButtonBecomeMembership ;
+end;
+
+procedure TfrmMain.btnWorkoutDescriptionClick(Sender: TObject);
+begin
+// Display the workout description for the selected activity
+
+// Validation
+  if lstSelectActivityDate.ItemIndex = -1 then
+  begin
+   ShowMessage('Select a date from the list') ;
+   Exit;
+  end;
+
+  ShowMessage(tblVisits['Description'])  ;
+end;
+
+procedure TfrmMain.bttPnlExtractionShowClick(Sender: TObject);
+begin
+// Display the panel that will be used for point extraction list summary
+pnlExtractionSummary.BringToFront ;
+pnlExtractionSummary.Visible := True ;
+end;
+
+procedure TfrmMain.Button1Click(Sender: TObject);
+var
+  sStr, s2 : string ;
+  bBoolean :boolean ;
+
+  tTime1, tTime2, tDiff : TTime ;
+  I: Integer;
+  tFile : textFile ;
+  sLine: TObject;
+begin
+// Testing purposes
+
+{
+sStr :=  Encrypt('Robert_Werk`~Rr');
+//Showmessage(sStr)   ;
+
+s2 := Decrypt('qggbwhvvly qggbwhvvly ') ;
+
+ShowMessage(s2) ;
+
+// ShowMessage(inttostr(tblCustomer_Info.RecordCount))     ;
+}
+
+//  ShowMessage(inttostr(chkListStrength.ItemIndex)) ;
+
+ //bBoolean := InputQuery('Input Required: ', 'Enter', sStr);
+ {
+ tTime1 := EncodeTime(23, 30, 0, 0);
+ tTime2 := EncodeTime(00, 30, 0, 0);
+
+  if tTime2 < tTime1 then
+    tDiff := (1 - tTime1) + tTime2  // Calculate difference across midnight
+  else
+    tDiff := tTime2 - tTime1;  // Normal time difference calculation
+
+    ShowMessage(TimeToStr(tdiff) )  ;
+
+
+    for I := 1 to 20 do
+    ShowMessage(arrStrengthSelectedNames[I]) ;  }
+
+   { for I := 1 to 0 do
+      ShowMessage('');  }
+
+    //  ShowMessage(floattostr(PointMultiplier(188, 76.5, date, now ,now))) ;
+ // ShowMessage(FloatToStr(PointMultiplier(tblCustomer_Info['Height'] ,tblCustomer_Info['Weight'], tblCustomer_Info['DateOfBirth'], dtWorkoutStart, dtWorkoutEnd)) )
+
+ {
+   AssignFile(tFile, 'temp/Test.txt') ;
+   Rewrite(tFile) ;
+
+   for I := 0 to redWorkoutSum.Lines.Count -1 do
+     begin
+       Writeln(tFile, redWorkoutSum.Lines[i]) ;
+     end;
+
+
+   CloseFile(tFile) ;
+ }
+ {
+   var
+   rTest : real ;
+   rTest := 5.007 ;
+ ShowMessage(FloatToStr(RoundTo(Frac(rTest), -3 )*1000) )   
+
+ ShowMessage(inttostr(tblFees.recNo))      ;
+ ShowMessage(inttostr(tblFees.RecordCount ));  }
+
+ {sPassword := 'Test' ;
+ sUsername := 'Test';   }
+
+ ShowMessage('Hallo word''. How''s it') ;
+end;
+
+
+
+procedure TfrmMain.ButtonBecomeMembership;
+begin
+// When a redirect button is cliked to become a member, redirect the member to the fees page
+// The main page control controls
+pgcMain.ActivePage.TabVisible := fALSE ;
+tsManagement.TabVisible := True ;
+pgcMain.ActivePage := tsManagement ;
+// Control the sub page control
+pgcManagement.ActivePage.TabVisible := False;
+tsFees.TabVisible := True ;
+pgcManagement.ActivePage := tsFees;
+end;
+
+procedure TfrmMain.btnToFeesFromPointsClick(Sender: TObject);
+begin
+// Go to the fee management page from the points page
+pgcManagement.ActivePage.TabVisible := False;
+tsFees.TabVisible := True ;
+pgcManagement.ActivePage := tsFees;
+end;
+
+procedure TfrmMain.btnDisplayGraphClick(Sender: TObject);
+const
+  PanelWidth = 100;
+var
+  i, iPanelWidth, iDayIndex, iHighest, iHighIndex, iMultiplier: Integer;
+
+begin
+  // Create the dynamic components (Panels) that will be used to display the ammount of times that the user visited on each day of the week
+
+  // Remove any existing dynamic compoents from the group box by freeing them from memory
+  for i := grbDisplayGraph.ControlCount - 1 downto 0 do
+  begin
+    // Check if the control is a panel
+    if grbDisplayGraph.Controls[i] is TPanel then  // Is seems to be used when you are working with components and with shapes
+    begin
+      // Free the panel and remove it from the parent
+      grbDisplayGraph.Controls[i].Free;
+    end;
+  end;
+  // Clear the array  if this is not the first time the graph display button is clicked
+    for I := 1 to 7 do
+      begin
+        arrActivityDayCount[i] := 0 ;
+        arrPointsPerDay[i] := 0 ;
+      end;
+
+  // Find the info of the user for the days when they visited and did activities
+  tblVisits.First ;
+
+  while not tblVisits.Eof do
+  begin
+     if tblVisits['CustomerID'] = tblCustomer_Info['CustomerID'] then
+     begin
+        iDayIndex := DayOfWeek(tblVisits['StartTime']) ;
+
+        arrActivityDayCount[iDayIndex] :=  arrActivityDayCount[iDayIndex] +1 ;
+
+        arrPointsPerDay[iDayIndex] :=  arrPointsPerDay[iDayIndex] + tblVisits['EffortPoints'] ;
+
+     end;
+
+  tblVisits.Next ;
+  end;
+
+  // Find the most common day (Day with most visits)    (Find the highest value in the array)
+
+  iHighest := 0 ;
+  iHighIndex := 0 ;
+  for I := 1 to 7 do
+    begin
+      if arrActivityDayCount[I] > iHighest then
+      begin
+        iHighest := arrActivityDayCount[I] ;
+        iHighIndex := I ;
+      end;
+
+    end;
+
+    // Set the multiplier for height displaying
+
+    if iHighest <= 10 then
+    iMultiplier := 20
+    else
+    if iHighest <= 25 then
+    iMultiplier := 10
+    else
+    if iHighest <= 50 then
+    iMultiplier := 4
+    else
+    iMultiplier := 1 ;
+
+  // Display the panels
+
+  for I := 1 to 7 do
+    begin
+      // Create the component
+      pnlGraph := TPanel.Create(Self) ;
+      pnlGraph.Width := PanelWidth ;
+      pnlGraph.Height := arrActivityDayCount[I] * iMultiplier ;       // Should not exceed 225
+
+      pnlGraph.Top := 265 - pnlGraph.Height; // Make the height go upwards, my making it display at another place
+      pnlGraph.Left := (PanelWidth + 10) * I-80 ;
+
+      arrPanelLeftPosition[I] :=  pnlGraph.Left ;
+
+      pnlGraph.Caption := FormatSettings.ShortDayNames[I] ;
+
+      // Set the color
+      pnlGraph.ParentBackground := False ;
+      pnlGraph.Color  := clActiveBorder  ;
+
+      // Set the onclick for when a panel is set
+      pnlGraph.OnClick :=  pnlDynamicClick;
+
+      pnlGraph.parent := grbDisplayGraph ;
+
+    end;
+
+
+     // Display the day the user exersised the most on
+     if (iHighest < 1) and not (iHighIndex in [1..7]) then   // Validation, sort of
+     begin
+       lblMostCommonDay.Caption := 'No activities found, therefore not common day.'
+     end
+     else
+     begin
+       lblMostCommonDay.Caption :=  'Most Common Day: ' + FormatSettings.LongDayNames[iHighIndex];
+     end;
+
+end;
+
+procedure TfrmMain.btnDisplayPaidFeesClick(Sender: TObject);
+var
+  iIndex : integer ;
+begin
+// Display the paid fees; the fees the user has already paid
+ FeeDisplay ;
+
+ iIndex := 0;
+
+ tblFees.First ;
+ while not tblFees.Eof do
+ begin
+  if tblFees['CustomerID'] = tblCustomer_Info['CustomerID'] then
+    if tblFees['Paid'] = True then
+    begin
+      Inc(iIndex) ;
+      redFeeDisplay.Lines.Add(IntToStr(iIndex)+#9+DateToStr(tblFees['DateOfFee']) +#9+ FloatToStrf(tblFees['Fee'], ffCurrency, 10,2) +#9+ tblFees['Reason'] )   ;
+    end;
+
+ tblFees.Next ;
+ end;
+
+end;
+
+procedure TfrmMain.btnDisplayUnPaidFeesClick(Sender: TObject);
+var
+  iIndex : integer ;
+  sListBox : string;
+begin
+// Display the outstanding fees and display them to the list box to be selected
+ FeeDisplay ;
+
+ iIndex := 0 ;
+
+   tblFees.First ;
+   while not tblFees.Eof do
+   begin
+      if tblFees['CustomerID'] = tblCustomer_Info['CustomerID'] then
+      begin
+        if tblFees['Paid'] = False then
+        begin
+         // Add the record number to the array
+          //arrFeeRecNo[iIndex] := tblFees.RecNo ;
+
+          Inc(iIndex);
+
+          // Add items to list box and rich edit
+          if Uppercase(tblFees['Reason']) = Uppercase('Membership') then
+          redFeeDisplay.SelAttributes.Color := clMaroon;
+
+           redFeeDisplay.Lines.Add(IntToStr(iIndex)+#9+DateToStr(tblFees['DateOfFee']) +#9+ FloatToStrf(tblFees['Fee'], ffCurrency, 10,2) +#9+ tblFees['Reason'] )   ;
+          sListBox :='Index: '+ IntToStr(iIndex)+ ' -- Record= '+inttostr(tblFees.RecNo) +'  ----  '+ FloatToStrf(tblFees['Fee'], ffCurrency,10,2);
+          lstFeeSelect.Items.Add(sListBox);
+
+        end;
+      end;
+
+   tblFees.Next ;
+   end;
+
+end;
+
+procedure TfrmMain.chkListStrengthClickCheck(Sender: TObject);
+var
+  Iclear: Integer;
+begin
+// Used when the user wants to remove or add input to the list of strength activities
+
+// When the user ads or removes an item from the list, then the arrays will be cleared and they will have to reEnter the reps for each strength activity
+
+if bCheckListBox = True then   // When the user has already entered their reps for their strength activities
+  begin
+  // Clear the arrays
+      for  iclear := 1 to 20 do
+      begin
+        arrStrengthReps[iclear] := 0 ;
+        arrStrengthSelectedNames[iClear] := '' ;
+      end;
+
+    ShowMessage('You will have to enter the Reps for EACH of the strength activities again.')
+  end;
+
+bCheckListBox := False ;    // Used to check that the user has provided the reps for their strength activities
+
+end;
+
+procedure TfrmMain.cmbTableSelectChange(Sender: TObject);
+begin
+  // Change the table being displayed in dbgTable
+  {
+  if cmbTableSelect.Items[cmbTableSelect.ItemIndex] = 'Fees' then
+    dbgTable.DataSource := dsrFees;
+   }
+  case cmbTableSelect.ItemIndex of
+  0 : dbgTable.DataSource := dsrCustomer_Info ;
+  1:    dbgTable.DataSource := dsrFees;
+  2: dbgTable.DataSource := dsrVisits ;
+  3 : dbgTable.DataSource := dsrPointsExtracted ;
+  end;
+
+end;
+
+procedure TfrmMain.dbgTableCellClick(Column: TColumn);
+var
+  bFound : Boolean ;
+  iForeignKey : integer ;
+begin
+  // When clicking on the cells of the child tables, display the account info by finding the account using the foreign key
+    
+    // Setup forgeing key
+     case cmbTableSelect.ItemIndex of
+     0: Exit ;
+     1: iForeignKey := tblFees['CustomerID'] ;
+     2: iForeignKey := tblVisits['CustomerID'] ;
+     3: iForeignKey := tblPointsExtracted['CustomerID'];
+
+     end;
+
+     tblCustomer_Info.First ;
+     bFound := False ;
+
+     while not tblCustomer_Info.Eof and (bFound = False) do
+     begin
+      if iForeignKey = tblCustomer_Info['CustomerID'] then
+      begin
+      bFound := True ;
+        ShowMessage('AccountID: '+ inttostr(iForeignKey)+#13+'Name: '+ tblCustomer_Info['CustomerName']+#13+'Surname: '+ tblCustomer_Info['Surname']+#13+'Date Joined: '+ DateToStr(tblCustomer_Info['DateJoined']) )     ;
+
+      end;
+
+     tblCustomer_Info.Next;
+     end;
+end;
+
+function TfrmMain.Decrypt(pToDecrypt: string): string;
+var
+  sKeyDigits, sReturn : string ;
+  cChar : char ;
+  bFound : boolean ;
+  iCount : integer ;
+begin
+// Decrypt an encrypted string
+
+sReturn := '';
+   for cChar  in pToDecrypt  do   // Loop thru the keys
+   begin
+    bFound := False ;
+
+    iCount := 0 ;
+    // ShowMessage(cchar) ;
+    if not (cChar = ' ') then
+      begin
+        sKeyDigits := sKeyDigits + cChar ;   // Create the keys to be checked for decryption
+     //   ShowMessage(sKeyDigits) ;
+      end
+      else
+      begin
+        // Find the key in the array
+          while (iCount <> 94) and (bFound = False) do
+          begin
+            Inc(iCount) ;
+
+            if sKeyDigits = arrKey[iCount] then
+            begin
+              sReturn := sReturn + arrKeyCharacter[iCount] ;
+              bFound := True ;
+              sKeyDigits := '';
+
+            end;
+
+          end;
+      end;
+
+   end;
+
+ Result := sReturn ;
+
+end;
+
+Function TfrmMain.DeleteAccount(pPrimaryKey: integer): boolean;
+begin
+// Delete an account from the system (The entire user account)
+// Also delete the txt file containing login details and the txt files that are storing workout info
+
+  // If result is false then the account deletion could not be completed
+
+  if MessageDlg('Are you sure you want to delete the account?'+#13+'ACCOUNT DELETETION CANNOT BE UNDONE', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) = mrNo  then
+  begin
+  ShowMessage('Account deletetion canceled.')      ;
+  Result := False ;
+  Exit;
+  end;
+
+  // Check that there are no outstanding fees;
+
+  tblFees.First ;
+
+  while not tblFees.Eof  do
+  begin
+    if pPrimaryKey = tblFees['CustomerID'] then
+    begin
+      if tblFees['Paid'] = FAlse then
+      begin
+        ShowMessage('Unpaid Fee Found. Cannot delete account untill all fees arr paid.')  ;
+        Result := False ;
+        Exit;
+      end;
+
+    end;
+
+
+  tblFees.next;
+  end;
+
+  // Delete Fees
+
+  tblFees.First ;
+
+  while not tblFees.Eof  do
+  begin
+    if pPrimaryKey = tblFees['CustomerID'] then
+    begin
+      tblFees.Delete ;
+    end
+    else
+    tblFees.next;
+  end;
+
+
+  // Delete Points Extracted
+
+  tblPointsExtracted.First ;
+
+  while not tblPointsExtracted.Eof do
+  begin
+     if pPrimaryKey = tblPointsExtracted['CustomerID'] then
+     begin
+       tblPointsExtracted.Delete ;
+     end
+     else
+   tblPointsExtracted.Next ;
+  end;
+
+  // Delete visits and txt files
+
+  tblVisits.First ;
+
+  while not tblVisits.Eof do
+  begin
+    if pPrimaryKey = tblVisits['CustomerID'] then
+    begin
+      DeleteFile('Workouts/'+inttostr(tblVisits['VisitID'])+'.txt') ; // Delete the file storing workout info. use build in Procedure. Wont be a problem if the file no longer exists before hand
+
+      tblVisits.Delete ;  // Delete the record
+    end
+    else
+    tblVisits.Next ;
+
+  end;
+
+  // Delete customer Info
+
+  // Delete the txt file comtaining login info
+  DeleteFile('Accounts\'+Encrypt(inttostr(pPrimaryKey) )+ '.txt')    ;
+
+  // Delete the database record
+  tblCustomer_Info.First ;
+  while not tblCustomer_Info.Eof do
+  begin
+    if tblCustomer_Info['CustomerID'] = pPrimaryKey  then
+    begin
+      tblCustomer_Info.Delete;
+      Result := True ;
+       ShowMessage('User account was successfully.') ;
+       Exit;
+    end
+    else
+    tblCustomer_Info.Next ;
+
+  end;
+
+end;
+
+procedure TfrmMain.DeleteLineFromFile(pFileName: string; pLineNumber: integer);
+var
+  slFileLines : TStringList ;
+begin
+// procedure to delete a line from a txt file
+  slFileLines := TStringList.Create;  // Create the list of the strings
+
+  slFileLines.LoadFromFile(pFileName) ; // Load the contents from the txt file to the string list
+
+  // Delete the line from the file
+
+  slFileLines.Delete(pLineNumber)  ; // delelte the line from the text file
+  slFileLines.SaveToFile(pFileName); // Update the txt file with the new list of strings
+
+  slFileLines.Free ; // Similar to using closeFile to close the file
+
+end;
+
+function TfrmMain.Encrypt(pToEncrypt: string): string;
+var
+  I, iCharCount: integer;
+  cCharacter: char;
+  bFound : boolean ;
+  sKey : string ;
+begin
+// Encrpypt a string;
+  sKey := '';
+
+  for I := 1 to Length(pToEncrypt) do
+  begin
+
+    cCharacter := pToEncrypt[I];
+
+    bFound := False ;
+    iCharCount   := 0;
+
+    while (iCharCount <> 94) and (bFound = False) do
+    begin
+      Inc(iCharCount) ;
+
+      if cCharacter = arrKeyCharacter[iCharCount] then
+      begin
+      bFound := True;
+       skey := sKey + arrKey[iCharCount]  + ' ' ;
+      end;
+
+    end;
+
+  end;
+
+  Result := sKey ;
+end;
+
+procedure TfrmMain.btnEnterRepsClick(Sender: TObject);
+var
+  I, iReps, iCount: integer;
+  sReps : string ;
+  bValid, bGO : boolean ;
+  j: Integer;
+begin
+// Get input from user for ammount of reps of the selected items from the check list box
+
+  // Use input boxes to get values and read into parallel arrays
+  iCount := 0;
+  bCheckListBox := True ;
+  for I := 0 to chkListStrength.Count - 1 do
+  begin
+
+    if chkListStrength.Checked[I] then
+    begin
+      bValid := False ;
+      Inc(iCount) ;
+
+      while bValid = False do
+      begin
+       // sReps := InputBox(chkListStrength.Items[i], 'Reps as an integer: ', '1') ;
+       sReps := '1';
+        bGO := InputQuery(chkListStrength.Items[i], 'Reps as an integer: ',sReps) ;   // Use inputQuery to utilze cancel
+
+        if bGO = True then  // Checks if the user press cancel, stops the loops if cancel is pressed.
+        begin // User Pressed OK
+           // Validation
+           try
+              iReps := strtoint(sReps)   ;
+
+              if ( iReps >= 1) and (iReps <= 250) then
+              begin
+                bValid := True ;
+                // read selected value and reps into arrays
+                arrStrengthSelectedNames[iCount] := chkListStrength.Items[i];
+                arrStrengthReps[iCount] := iReps;
+              end
+              else
+              ShowMessage('Reps out of range. Value should be between 1 and 250');
+
+           except
+            ShowMessage('Please enter an integer number.'+#13+'(Example: 1; 10; 109)') ;
+           end;
+        end
+        else   // User pressed cancel
+        begin
+        // Cancel if the cancel button was pressed at any point
+          for j := 1 to iCount do
+          begin
+            arrStrengthSelectedNames[j] := '';
+            arrStrengthReps[j] := 0;
+          end;
+        bCheckListBox := False ;
+        ShowMessage('Input Canceled');
+        Exit ;
+        end;
+
+
+         {ShowMessage(sReps)  ;
+         ShowMessage(inttostr(iReps))  ; }
+      end;
+
+    end;
+  end;
+   iStrengthSelectedCount := iCount ; // Forgot to make iCount a custom and unique global, faster to do this than replace each
+
+end;
+
+procedure TfrmMain.btnFindAccountRangeClick(Sender: TObject);
+var
+  iAge : integer ;
+begin
+// Display accounts matching selected range
+SetShowAccountsTabStops(cmbRangeSelect.Items[cmbRangeSelect.ItemIndex])  ;
+
+// Validation
+
+  if sedLowestValue.Value > sedHighestValue.Value then
+  begin
+    ShowMessage('Number range invalid, set low to lowest value') ;
+    exit;
+  end;
+
+
+// Process
+
+  tblCustomer_Info.First;
+
+  while not tblCustomer_Info.Eof  do
+  begin
+
+    case cmbRangeSelect.ItemIndex of
+    0:  // Weight Range
+      begin
+        if (tblCustomer_Info['Weight'] > sedLowestValue.Value) and (tblCustomer_Info['Weight'] < sedHighestValue.Value) then
+        begin
+           AccountsDisplay(FloatToStr(tblCustomer_Info['Weight']) )  ;
+        end;
+
+      end;
+
+    1:  // Height Range
+      begin
+        if (tblCustomer_Info['Height'] > sedLowestValue.Value) and (tblCustomer_Info['Height'] < sedHighestValue.Value) then
+        begin
+           AccountsDisplay(FloatToStr(tblCustomer_Info['Height']) )  ;
+        end;
+      end;
+
+    2:  // Age range
+      begin
+       iAge := YearsBetween(date, tblCustomer_Info['DateOfBirth']) ;
+        if (iAge > sedLowestValue.Value) and (iage < sedHighestValue.Value) then
+        begin
+          AccountsDisplay(inttostr(iAge)) ;
+        end;
+      end;
+
+    end;
+
+  tblCustomer_Info.Next;
+  end;
+end;
+
+procedure TfrmMain.btnFeesBackClick(Sender: TObject);
+begin
+// Go to the Update account page  from the fee management page  (Back)
+pgcManagement.ActivePage.TabVisible := False;
+tsDetails.TabVisible := True ;
+pgcManagement.ActivePage := tsDetails;
+end;
+
+procedure TfrmMain.btnFindAccountFeesClick(Sender: TObject);
+var
+  bFirst : boolean ;
+begin
+// Find accounts that has outstanding fees and display the fees that are unpaid under the persons name
+SetShowAccountsTabStops('Date Joined') ;
+
+
+  tblCustomer_Info.First ;
+
+  while not tblCustomer_Info.Eof do // Loop thru customer database
+  begin
+    bFirst := True ;   // Used if it is the first unpaid fee
+
+    tblFees.First ;
+    while not tblFees.Eof do
+    begin
+
+      if (tblCustomer_Info['CustomerID'] = tblFees['CustomerID']) and (tblFees['Paid'] = False) then
+      begin
+         if bFirst = True then  // Display the customer details it this is the first fee found under their name
+         begin
+          redShowAccounts.SelAttributes.Color := clBlue;
+          redShowAccounts.Lines.Add(#13+inttostr(tblCustomer_Info['CustomerID'])+#9+tblCustomer_Info['CustomerName']+#9+tblCustomer_Info['Surname']+#9+datetostr(tblCustomer_Info['DateJoined'])) ;
+          redShowAccounts.SelAttributes.Color := clGreen ;
+          redShowAccounts.Lines.Add('Date of Fee'+#9+'Fee'+#9+'Reason'+#13) ;
+          bFirst := False;
+         end;
+
+         redShowAccounts.Lines.Add(datetostr(tblFees['DateOfFee'])+#9+floattostrf(tblFees['Fee'], ffCurrency, 10,2)+#9+tblFees['Reason']);    // Add the fee to the rich edit under the persons name
+
+      end;
+
+    tblFees.Next ;
+    end;
+
+  tblCustomer_Info.Next ;
+  end;
+
+
+end;
+
+procedure TfrmMain.btnFindUserClick(Sender: TObject);
+var
+  bFound, bText : boolean ;
+begin
+  // Loop thru tblCustomer_Info. When an account is found matching the input, stop the loop and ask the admin if this is the account of if they wish to continue the search
+  // Display active account the gbgGrid
+
+
+  // Validation
+  if  sedIDsearch.Value = 0 then
+  begin
+
+    if edtFeeName.Text = '' then
+    begin
+      ShowMessage('Enter a Name or a Customer ID')   ;
+      exit;
+    end;
+
+      if edtFeeSurname.Text = '' then
+      begin
+        ShowMessage('Enter a Surname or a Customer ID')   ;
+        exit;
+      end;
+
+      bText := True ;
+  end
+  else
+  begin
+    bText := False ;
+    edtFeeName.Clear ;
+    edtFeeSurname.Clear ;
+  end;
+  {
+  edtFeeName.Enabled  := False ;
+  edtFeeSurname.Enabled := False ;
+   }
+  cmbTableSelect.ItemIndex := 0;
+  dbgTable.DataSource := dsrCustomer_Info ;
+
+
+  tblCustomer_Info.First ;
+  bFound := FAlse ;
+  while not tblCustomer_Info.Eof and (bFound = false)  do
+  begin
+
+    if (tblCustomer_Info['CustomerID'] = sedIDsearch.Value) and (bText = False)  then
+    begin
+      bFound := True ;
+    end
+    else
+    if (bText = True) and (UpperCase(edtFeeName.Text) = UpperCase(tblCustomer_Info['CustomerName']) ) and (UpperCase(edtFeeSurname.Text) = UpperCase(tblCustomer_Info['Surname'])) then
+    begin
+      bFound := True ;
+    end
+    else
+    tblCustomer_Info.Next;
+
+  end;
+
+  if bFound = False then
+  ShowMessage('No account and no account similar to the info entered was found');
+  begin
+    btnNext.Enabled := True ;
+    btnBack.Enabled := True ;
+  end;
+
+
+end;
+
+procedure TfrmMain.btnGetMembershipClick(Sender: TObject);
+begin
+// Make the user a member if they are not one. Charge R300 and confirm using the dialogue box
+
+  // Check that user is not already a member (If they still need to pay but have already opted in, then they are considered a member and have to pay for the fee at outstanding fees )
+
+  if tblCustomer_Info['Member'] = True then
+  begin
+    ShowMessage('You''re already a member. Enjoy the perks!'+#13+
+    '*Note: If you still need to pay for your membership, you can do so using the Fee Manager by pressing the ''Outrstanding Fee'' button to find it.');
+    Exit;
+  end;
+
+  // Confirm that they want to pay the fee
+ if MessageDlg('Are you sure you want to pay R300 to become a Member and gain the benefits?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) = mrYes  then
+ begin
+   // Pay the fee and add to the fee table in the database
+   tblCustomer_Info.Edit ;
+   tblCustomer_Info['Member'] := true;
+   tblCustomer_Info.Post ;
+
+   tblFees.Insert ;
+
+   tblFees['CustomerID'] := tblCustomer_Info['CustomerID'] ;
+   tblFees['Fee'] := 300;
+   tblFees['Paid'] := True;
+   tblFees['DateOfFee'] := Today;
+   tblFees['Reason'] := 'Membership' ;
+
+   tblFees.Post ;
+   HideMembershipButtons ;
+   ShowMessage('Welcome! You are now officially a member.'+#13+'Enjoy all the points and life healthily!') ;
+ end
+ else
+ ShowMessage('Become a Membership Cancelled.')
+
+end;
+
+procedure TfrmMain.btnGetMembershipMouseEnter(Sender: TObject);
+begin
+// Enlarge the become a member button
+btnGetMembership.Width :=  460 ;
+btnGetMembership.Height := 110 ;
+end;
+
+procedure TfrmMain.btnGetMembershipMouseLeave(Sender: TObject);
+begin
+// Resize the  the become a member button to normal
+btnGetMembership.Width :=  430 ;
+btnGetMembership.Height := 94 ;
+end;
+
+procedure TfrmMain.btnGoToGraphClick(Sender: TObject);
+begin
+// Go to the graph page from the See workouts page
+pgcStats.ActivePage.TabVisible := False;
+tsGraph.TabVisible := True ;
+pgcStats.ActivePage := tsGraph;
+end;
+
+procedure TfrmMain.btnGoToSeeWorkClick(Sender: TObject);
+begin
+// Go to the See workouts page from the graph page
+pgcStats.ActivePage.TabVisible := False;
+tsSeeWorkouts.TabVisible := True ;
+pgcStats.ActivePage := tsSeeWorkouts;
+end;
+
+procedure TfrmMain.FeeDisplay;
+begin
+// Procedure to set up the rich edit for fee displaying
+lstFeeSelect.Clear ;
+redFeeDisplay.Clear ;
+redFeeDisplay.Paragraph.TabCount := 3 ;
+redFeeDisplay.Paragraph.Tab[0] := 40;
+redFeeDisplay.Paragraph.Tab[1] :=  100;
+redFeeDisplay.Paragraph.Tab[2] := 170;
+
+redFeeDisplay.SelAttributes.Color := clRed ;
+
+redFeeDisplay.Lines.Add('Index'+#9+'Date'+#9+'Fee Ammount'+#9+'Reason') ;
+end;
+
+procedure TfrmMain.FormActivate(Sender: TObject);
+var
+  sStrengthFileName, sline, sActName: string;
+  tFile_Strength_Act, tFile: textfile;
+   ipos, iCount: integer;
+
+   // Sort of array var
+   iOut, iInn, iKeep : integer;
+   sKeep : string ;
+  I: Integer;
+begin
+
+  // Form Acticate
+
+  // Setup of the GUI
+  pnlWorkoutSum.Visible := False;
+  cmbTableSelect.ItemIndex  := 0;
+
+
+  // Setup the object properties
+  redConfirmInfo.ReadOnly := True;
+  edtUsernameDisplay.ReadOnly := True;
+  imgRegister.Stretch := True;
+  sedHeight.MinValue := 50;
+  sedHeight.MaxValue := 300;
+  sedHeight.Value := 140;
+  lstQuickDescribe.ItemIndex := 0;
+  redAccountSearch.Clear ;
+  redAccountSearch.ReadOnly := True ;
+  redWorkoutInfoDisplay.Clear ;
+  redWorkoutInfoDisplay.ReadOnly := True ;
+  redExtractionSum.Clear ;
+
+  // Setup variables
+  bCheckListBox := False ;
+  bFirstUpdate := True ;
+
+  // btnCreateAccount.Caption := 'Create' +#13+ 'Account' ;
+
+  // Read items into list check box for activities and arrays
+
+  // Read into arrays
+  sStrengthFileName := 'Stength_Activities.txt';
+  AssignFile(tFile_Strength_Act, sStrengthFileName);
+
+  iStrengthActCount := 0;
+
+  if not FileExists(sStrengthFileName) then // Check that the file exists
+    Rewrite(tFile_Strength_Act);
+
+  Reset(tFile_Strength_Act);
+
+  while not Eof(tFile_Strength_Act) and ( iStrengthActCount < 20) do
+  begin
+    Inc( iStrengthActCount);
+
+    Readln(tFile_Strength_Act, sline);
+    ipos := pos('#', sline);
+    sActName := Copy(sline, 1, ipos - 1);
+    arrStrengthOriginalNames[ iStrengthActCount] := sActName ; // Read the names of the activity to the array
+    Delete(sline, 1, ipos);
+    arrStrengthPoints[ iStrengthActCount] := strtoint(sline); // Add values to the array, what each activiy is worth
+
+  // ShowMessage(arrStrengthOriginalNames[ iStrengthActCount] +'    '+ IntToStr(arrStrengthPoints[ iStrengthActCount]) )
+
+  end;
+  CloseFile(tFile_Strength_Act);
+
+  // Sort the arrays alpabetically from A to Z
+
+  for iOut := 1 to iStrengthActCount -1 do
+    begin
+
+      for iInn := iOut +1 to iStrengthActCount do
+        begin
+
+          if Uppercase(arrStrengthOriginalNames[iInn]) < Uppercase(arrStrengthOriginalNames[iOut]) then
+          begin
+            sKeep := arrStrengthOriginalNames[iOut] ;
+            arrStrengthOriginalNames[iOut] :=  arrStrengthOriginalNames[iInn] ;
+            arrStrengthOriginalNames[iInn] := sKeep ;
+
+            ikeep :=  arrStrengthPoints[iOut] ;
+             arrStrengthPoints[iOut] := arrStrengthPoints[iInn];
+              arrStrengthPoints[iInn] := iKeep ;
+          end;
+
+        end;
+
+    end;
+
+  // Add the Names from the sorted arrays to the check list box
+  for I := 1 to iStrengthActCount do
+  begin
+    chkListStrength.Items.Add(arrStrengthOriginalNames[I]);// Add items to the check list box
+  end;
+
+  iLowerBodyCount := 0 ;
+  iUpperBodyCount := 0 ;
+
+  // Read item from txt file to the Lower body combobox
+  AssignFile(tFile, 'Lower_Body.txt') ;
+
+  if not FileExists('Lower_Body.txt')  then
+  begin
+    ShowMessage('Lower body text file not found. Created!');
+    Rewrite(tFile)  ;
+  end;
+
+  Reset(TFile)  ;
+
+  while not eof(Tfile) do
+  begin
+    inc(iLowerBodyCount  ) ;
+    Readln(tFile, sline) ;
+    iPos := Pos('#', sline) ;
+
+    cmbLower_Weights.Items.Add(Copy(sLine,1,Ipos-1) )  ;
+
+    arrLowerBody[iLowerBodyCount]  := strtoint(Copy(sLine, iPos+1, length(sLine) )   )     ;
+
+  end;
+  CloseFile(tFile)  ;
+
+  // Read item from txt file to the Upper body listbox
+
+ AssignFile(tFile, 'Upper_Body.txt') ;
+
+  if not FileExists('Upper_Body.txt')  then
+  begin
+    ShowMessage('Upper body text file not found. Created!');
+    Rewrite(tFile)  ;
+  end;
+
+  Reset(TFile)  ;
+
+  while not eof(Tfile) do
+  begin
+    inc(iUpperBodyCount  ) ;
+    Readln(tFile, sline) ;
+    iPos := Pos('#', sline) ;
+
+    lstUpperWeights.Items.Add(Copy(sLine,1,Ipos-1) )  ;
+
+    arrUpperBody[iUpperBodyCount]  := strtoint(Copy(sLine, iPos+1, length(sLine) )   )     ;
+
+  end;
+  CloseFile(tFile)  ;
+
+  // Read the extraction platforms into the combobox
+  if not FileExists('Extraction_Platforms.txt')  then
+  begin
+    ShowMessage('Extraction file not found. Created.') ;
+    AssignFile(tFile, 'Extraction_Platforms.txt') ;
+    Rewrite(tFile)  ;
+    CloseFile(tFile) ;
+  end;
+
+  cmbPlatform.Items.LoadFromFile('Extraction_Platforms.txt');
+
+  // read items into array that stores only special characters, used for password validation
+
+  AssignFile(tFile, 'Special_Characters.txt')  ;
+  iCount := 0;
+
+  if not FileExists('Special_Characters.txt') then      // Check that the file exists
+  begin
+    Rewrite(tFile_Strength_Act);
+    ShowMessage('Special character file not found');
+   end;
+
+   Reset(tFile) ;
+
+   while not Eof(tFile) and (iCount < 32) do
+   begin
+     Inc(iCount)  ;
+     Readln(tFile, sline)  ;
+     arrSpecialCharacter[iCount] := sLine[1] ;
+   end;
+  CloseFile(tFile);
+
+
+  // Read items into radiogroup for quick workout descriptions
+
+
+  // Read the keys from the txt file into the arrays for encryption
+  KeysToArrays;
+
+  // Connect Database
+  conGym_Membership.ConnectionString :=
+    'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Gym_Membership_db.mdb;Mode=ReadWrite;Persist Security Info=False';
+  conGym_Membership.LoginPrompt := False;
+  conGym_Membership.Open;
+
+  // Customer Ifo table
+  tblCustomer_Info.Connection := conGym_Membership;
+  tblCustomer_Info.TableName := 'tblCustomer_Info';
+  tblCustomer_Info.Open;
+  dsrCustomer_Info.DataSet := tblCustomer_Info;
+
+  // Visits table
+  tblVisits.Connection := conGym_Membership;
+  tblVisits.TableName := 'tblVisits';
+  tblVisits.Open;
+  dsrVisits.DataSet := tblVisits;
+
+  // Points Extracted table
+  tblPointsExtracted.Connection := conGym_Membership;
+  tblPointsExtracted.TableName := 'tblPointsExtracted';
+  tblPointsExtracted.Open;
+  dsrPointsExtracted.DataSet := tblPointsExtracted;
+
+  // Fees Table
+  tblFees.Connection := conGym_Membership;
+  tblFees.TableName := 'tblFees';
+  tblFees.Open;
+  dsrFees.DataSet := tblFees;
+
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+  // Creation of the form
+
+  // Tab sheets for pgcMain
+  {
+    tsSignIn.TabVisible := False;
+    tsRegister.TabVisible := False;
+    tsAdmin.TabVisible := False;
+    tsWorkout.TabVisible := False;
+    tsStatistics.TabVisible := False;
+    tsManagement.TabVisible := False;
+    tsAdmin_Manage.TabVisible := False;
+    tsAdmin_Account_Management.TabVisible := False ;
+
+      }
+
+    // Tabsheets for sub page controls
+end;
+
+procedure TfrmMain.GetMembership;
+begin
+// Procedure to call when the user click on a button to take them to the place where they can get a membership
+
+  // Hide the current tabsheet
+
+
+
+  // Go to the Management tabsheep
+
+
+      // Go to the Fees tabsheet
+end;
+
+procedure TfrmMain.HideMembershipButtons;
+begin
+// Produre to hide membership buttons
+btnWorkoutBecomeMember.Hide ;
+btnStatsBecomeMember.Hide ;
+btnManagementBecomeMember.Hide ;
+end;
+
+procedure TfrmMain.KeysToArrays;
+var
+  tKeyFile: textfile;
+  sline: string;
+  iKeyCount, ipos: integer;
+begin
+  // Read the keys from the txt file for encryption into arrays
+
+  if FileExists('keys10.txt') <> True then // Check that the file exists
+  begin
+    ShowMessage('Encryption Key File not Found');
+    Exit;
+  end;
+
+  // Set up the file and variables for file extraction
+  AssignFile(tKeyFile, 'keys10.txt');
+  Reset(tKeyFile);
+  iKeyCount := 0;
+
+  while not Eof(tKeyFile) and (iKeyCount <= 94) do // Loop thru the txt file
+  begin
+    Readln(tKeyFile, sline); // Read the line
+
+    Inc(iKeyCount);
+    // Read the character of a key into an array
+    arrKeyCharacter[iKeyCount] := sline[1];
+
+    ipos := pos(':', sline);
+   // Read the key of the character into a parallel array
+    arrKey[iKeyCount] := Copy(sline, ipos + 1, Length(sline));
+
+  end;
+  // Close the file
+  CloseFile(tKeyFile);
+end;
+
+procedure TfrmMain.lstSelectActivityDateClick(Sender: TObject);
+var
+  iPrimaryKey, iPos : integer ;
+  bFound : boolean ;
+  tFile : textFile ;
+  sLine, sAct, sReps : string;
+begin
+// Display the activity details according to the activity that is selected in the list box
+
+  iPrimaryKey :=  arrVisitsKeys[lstSelectActivityDate.ItemIndex] ;
+
+  bFound := False;
+
+  tblVisits.First ;
+  while not tblVisits.Eof and (bFound = False) do
+  begin
+    if tblVisits['VisitID'] = iPrimaryKey then
+    begin
+    // Display
+
+      tpStartTime.Time := (tblVisits['StartTime']);
+      tpEndTime.time := tblVisits['EndTime'] ;
+      nbPointsForAct.Value := tblVisits['EffortPoints'] ;
+
+     bFound := True;
+    end
+    else
+   tblVisits.Next ;
+
+  end;
+
+  redWorkoutInfoDisplay.Clear ;
+  redWorkoutInfoDisplay.Paragraph.TabCount := 1;
+  redWorkoutInfoDisplay.Paragraph.Tab[0] := 120 ;
+   redWorkoutInfoDisplay.SelAttributes.Color := clRed ;
+   redWorkoutInfoDisplay.Lines.Add('Activity'+#9+'Reps/Distance') ;
+
+  // Read the activity details from the txt file to the rich edit
+  AssignFile(tFile, 'Workouts/'+inttostr(iPrimaryKey)+ '.txt')  ;
+  if not FileExists('Workouts/'+inttostr(iPrimaryKey)+ '.txt')  then // If file does not exist, then it never will
+  begin
+    ShowMessage('No Workout Info File Found For act') ;
+    Exit;
+  end;
+
+
+  Reset(tFile) ;
+
+  while not Eof(tFile)  do
+  begin
+    Readln(tFile, sLine);
+    iPos := Pos('#', sLine);
+
+    sAct := Copy(sLine, 1, iPos-1);
+    sReps := Copy(sLine, iPos+1, Length(sLine));
+
+    redWorkoutInfoDisplay.Lines.Add( sAct+#9+ sReps)    ;
+
+  end;
+
+  CloseFile(tFile);
+
+
+end;
+
+procedure TfrmMain.pgcMainChange(Sender: TObject);
+begin
+// When the tabsheet changes
+
+// When the user goes to the management page, then set their details ready to be updated
+  // Update user info
+  if (pgcMain.ActivePage = tsManagement) and (bFirstUpdate = true) then // Check what is the active page
+  begin
+    bmbResetUpdate.Click ;  // Same as reset the input function. For the update Info
+    bmbResetUpdateLogin.Click; // For the update Login 
+    
+   bFirstUpdate := False ;
+  end;
+
+
+
+end;
+
+procedure TfrmMain.pnlDynamicClick(Sender: TObject);
+var
+  iPosition, I, iIndex : integer ;
+  pnlClicked : TPanel ;  // Will use to access properties of the clicked panel
+begin
+// The procedure for when one of the dynamic panels is clicked
+
+
+  pnlClicked := Tpanel(sender) ; //  Sender determines which one of the panels was clicked. It is used to assign the properties of the clicked panel to the  pnlClicked variable
+
+  iIndex := -1;
+
+  iPosition := pnlClicked.Left ; // get the position of the panel that was clicked
+
+  // get the array index of the cliked panel by using its left position
+  for I := 1 to 7 do
+    begin
+      if iPosition = arrPanelLeftPosition[i] then
+      begin
+       iIndex := I ;
+       // Break ;
+      end;
+
+    end;
+
+    if iIndex <> -1 then    // Just to make sure
+    ShowMessage('Day: '+ FormatSettings.LongDayNames[iIndex]+#13+'Total Activities on day: '+ inttostr(arrActivityDayCount[iIndex])+#13+'Total Points for day: '+ inttostr(arrPointsPerDay[iIndex]))  ;
+
+end;
+
+procedure TfrmMain.pnlTotalEarnedClick(Sender: TObject);
+begin
+// Info on how they can earn more points
+ShowMessage('If you want to earn more points, exercise regularly and with a higher intensity!') ;
+end;
+
+function TfrmMain.ListCheckBoxSelected: boolean;
+var
+  i : integer ;
+  bChecked : boolean ;
+begin
+// Check if any boxes are selected in the check list box
+
+bChecked := False ;
+
+ for I := 0 to chkListStrength.Count -1 do
+ begin
+   if chkListStrength.Checked[i] then
+   begin
+     bChecked := True ;
+     // Break ;
+   end;
+
+ end;
+
+ Result := bChecked ;
+
+end;
+
+procedure TfrmMain.lstAccountSelectClick(Sender: TObject);
+begin
+// Reset the recovery labels for the account recovery
+  lblAccountDisplayUsername.Caption := 'Username:' ;
+lblAccountDisplayPassword.Caption := 'Password:' ;
+end;
+
+
+
+function TfrmMain.PointMultiplier(pHeight: integer; pWeight: real; pDateOfBirth: TDate; pStart, pEnd: TDateTime): real;
+var
+rMultiply, rAgeMultiplier, rTimeMultiplier, rHeightWeightMultiplier: real;
+  iAge, CurrentYear, BirthYear: integer;
+  rTaskDurationHours: real;
+  rNormalizedHeight, rNormalizedWeight: real;
+begin
+ // Function that will calculate a multiplier for the points. Multiplier is used to ajust points allocated based on estimated effort of the person.
+ // Note: This formula is not my own and has been generated by AI
+
+  iAge := YearsBetween(Date, pDateOfBirth);
+
+  // Normalize height and weight, what I found online that I had to do. Apparently to assist in the data ranges.
+  rNormalizedHeight := pHeight / 175.0;
+  rNormalizedWeight := pWeight / 70.0;
+
+  // Calculate time difference in hours
+  rTaskDurationHours := (pEnd - pStart) * 24;
+
+  // Age multiplier: older increases multiplier
+  rAgeMultiplier := (iAge / 100) * 0.25;
+
+  // Time multiplier: shorter time increases multiplier
+  if rTaskDurationHours > 0 then         // If for PAT purposes used to enter time and 0 was inputed. This statement will prevent dividing by zero
+    rTimeMultiplier := (1 / rTaskDurationHours) * 0.25
+  else
+    rTimeMultiplier := 0;
+
+  // Height and weight multiplier: taller + lighter increases multiplier
+  rHeightWeightMultiplier := (rNormalizedHeight - rNormalizedWeight) * 0.25;
+
+  // Calculate the final multiplier
+  rMultiply := 0.75 + rAgeMultiplier + rTimeMultiplier + rHeightWeightMultiplier;
+
+  // Ensure the result is between 0.75 to 1.25
+  if rMultiply < 0.75 then
+    rMultiply := 0.75
+  else if rMultiply > 1.25 then
+    rMultiply := 1.25;
+
+  Result := rMultiply;
+end;
+
+procedure TfrmMain.rgpFeeReasonClick(Sender: TObject);
+begin
+//  Read the reason for the fee into the global variable so that it can be written to the database
+
+sFeeReason := rgpFeeReason.Items[rgpFeeReason.ItemIndex]  ;
+end;
+
+procedure TfrmMain.rgpFileClick(Sender: TObject);
+ var
+  sFileName : string;
+  tFile : textfile ;
+begin
+// Update the info for the labels indicating to where you want to add activities
+  lblAddAct.Caption := 'Add new activity for '+rgpFile.Items[rgpFile.ItemIndex] ;
+  lblDeleteActivity.Caption := 'Delete activity for ' +rgpFile.Items[rgpFile.ItemIndex] ;
+
+  case rgpFile.ItemIndex of
+  0 :sFileName := 'Stength_Activities.txt';
+  1 : sFileName := 'Lower_Body.txt' ;
+  2 : sFileName := 'Upper_Body.txt' ;
+  end;
+
+
+  if not FileExists(sFileName)  then
+  begin
+    AssignFile(tFile, sFileName) ;
+    Rewrite(tFile) ;
+    ShowMessage('File Not Found: '+sFileName+'. New File Created.');
+    CloseFile(tFile);
+  end;
+
+ lstDeleteActivity.Items.LoadFromFile(sFileName) ;
+end;
+
+procedure TfrmMain.rgpGenderClick(Sender: TObject);
+begin
+// Resets the color to normal when the user finally selects a gender
+rgpGender.Color := clWindow ;
+end;
+
+
+
+procedure TfrmMain.SetShowAccountsTabStops(pCustom: string);
+begin
+// Prepare the rich edit for output of the accounts to be displayed
+
+redShowAccounts.Clear ;
+
+redShowAccounts.Paragraph.TabCount := 3 ;
+redShowAccounts.Paragraph.Tab[0] :=   30 ;
+redShowAccounts.Paragraph.Tab[1] :=    105;
+redShowAccounts.Paragraph.Tab[2] :=    215;
+redShowAccounts.SelAttributes.Color := clRed;
+redShowAccounts.Lines.Add('ID'+#9+'Name'+#9+'Surname'+#9+ pCustom) ;
+end;
+
+procedure TfrmMain.TimerUndoFeeTimer(Sender: TObject);
+begin
+Dec(iTimerCountdown)  ;
+
+ btnUndoAddFee.Caption :=  'Undo ('+ inttostr(iTimerCountdown)+')';
+
+ if iTimerCountdown = 0 then
+ begin
+    TimerUndoFee.Enabled := False ;
+   btnUndoAddFee.Caption := 'Undo';
+   btnUndoAddFee.Enabled := False ;
+ end;
+
+end;
+
+end.

@@ -5,7 +5,7 @@ keyslist = []
 
 allowedcharacters = []
 
-Len = 10
+Len = 1000000
 
 def CreateKeyAlpha():
     for _ in range(Len):    # Lenght of the encryption key

@@ -1,0 +1,26 @@
+Find according to:		(Display the accounts that fall under the crireria)
+
+		Weight Range
+		Age Range (Select the same range both times if person want a specific age) 
+		Height Range
+	
+		Membership
+		Gender
+		Date Joined
+		Visit Dates
+		Date of Extraction
+	
+Find by: (Search for an Account)
+	Name
+	Surname
+	
+		Delete an Account
+		Edit an Account
+		
+
+
+System Management
+
+Change available profile pictures
+Reset The database
+Change error messages
