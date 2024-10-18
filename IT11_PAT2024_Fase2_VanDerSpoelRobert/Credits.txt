@@ -1,0 +1,6 @@
+- ChatGPT and Stack overFlow was used for the deletion of lines from a txt file
+-InputputQuery : experimentation
+- Multiplier formula was created by AI, as it is theoretical
+- Self was discovered thru testing
+-Sender was discovered online
+-Sleep is also a python function and thus I knew how to use it
