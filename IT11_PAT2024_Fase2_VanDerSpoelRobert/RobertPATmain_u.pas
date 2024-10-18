@@ -185,7 +185,6 @@ type
     bmbWorkoutPageNext: TBitBtn;
     bmbWorkoutHelp: TBitBtn;
     bmbManagementFromWorkout: TBitBtn;
-    Button1: TButton;
     lblLogin: TLabel;
     edtLoginUsername: TEdit;
     edtLoginPassword: TEdit;

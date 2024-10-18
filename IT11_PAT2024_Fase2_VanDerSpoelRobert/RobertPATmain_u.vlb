@@ -481,11 +481,8 @@ Coordinates=173,144,106,51
 [lblLogin]
 Coordinates=417,144,54,51
 
-[Button1]
-Coordinates=10,144,53,51
-
 []
-Coordinates=1182,552,137,51
+Coordinates=10,144,53,51
 
 [lblLoginUsername]
 Coordinates=1123,10,46,51
