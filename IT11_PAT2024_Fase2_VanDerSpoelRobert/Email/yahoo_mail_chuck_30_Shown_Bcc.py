@@ -4,8 +4,8 @@ from email.mime.text import MIMEText
 import time
 
 # Email configuration
-EMAIL_ADDRESS = 'vrobert997@yahoo.com'
-EMAIL_PASSWORD = 'jenanqebkhkwpqit'  # Generated password key in yahoo account settings
+EMAIL_ADDRESS = ''
+EMAIL_PASSWORD = ''  # Generated password key in yahoo account settings
 SMTP_SERVER = 'smtp.mail.yahoo.com'  # Yahoo SMTP server
 SMTP_PORT = 587  # SMTP port for Yahoo
 
