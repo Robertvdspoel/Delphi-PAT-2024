@@ -6,9 +6,9 @@ from email.mime.text import MIMEText
 #import time
 
 # Email configuration
-EMAIL_ADDRESS = 'vrobert997@yahoo.com'
-EMAIL_PASSWORD = 'ttnukqndcirmvwyn'         # Generated password key in yahoo account settings.
-TO_ADDRESS = ['robertvdspoel2007@gmail.com', '10867@hsrandburg.co.za']           #'robertvdspoel2007@gmail.com' #, '10867@hsrandburg.co.za'        
+EMAIL_ADDRESS = ''
+EMAIL_PASSWORD = ''     # Generated password key in yahoo account settings.
+TO_ADDRESS = ['']           
  # Perhaps loop thru a txt file to with email addresses to send emails to a broad range of people. For the newsletter for example  
  # Only a single address if you want to verify a person or something
 SMTP_SERVER = 'smtp.mail.yahoo.com'  # Yahoo SMTP server
